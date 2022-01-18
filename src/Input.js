@@ -9,6 +9,7 @@ const Input = () => {
   const [payee, setPayee] = useState("select");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [note, setNote] = useState("");
+  const [addPayee, setAddPayee] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [payeeList, setPayeeList] = useState(["ABC", "XYZ"]);
 
@@ -16,28 +17,41 @@ const Input = () => {
 
   const handlePayeeChange = (e) => {
     setPayee(e.target.value);
-    if (e.target.value === "add") {
+    if (e.target.value === "") {
+      setPayee("select");
       setShowModal(true);
     }
   };
 
   const handleClose = () => {
-    payeeList.push(payee);
-    setPayeeList(payeeList);
+    if (addPayee !== "") {
+      setPayee(addPayee);
+      payeeList.push(addPayee);
+      setAddPayee("");
+      setPayeeList(payeeList);
+    }
     setShowModal(false);
   };
 
   return (
     <div className="input">
       <h2>Add New {inputType}</h2>
-      <Modal show={showModal} closingText="Add" handleClose={handleClose}>
+      <Modal
+        show={showModal}
+        closingText="Add"
+        setShowModal={setShowModal}
+        handleClose={handleClose}
+      >
         <h2>Add a new Payee/Payer</h2>
-        <label>Payee/Payer Name: </label>
-        <input
-          type="text"
-          value={payee}
-          onChange={(e) => setPayee(e.target.value)}
-        />
+        <form>
+          <label>Payee/Payer Name: </label>
+          <input
+            type="text"
+            required
+            value={addPayee}
+            onChange={(e) => setAddPayee(e.target.value)}
+          />
+        </form>
       </Modal>
       <form>
         <input
@@ -85,11 +99,18 @@ const Input = () => {
         <br />
         <label>{inputType === "Expense" ? "Payee" : "Payer"}: </label>
         <select value={payee} onChange={handlePayeeChange}>
-          <option value="select">--Select a Payee--</option>
+          <option value="select" disabled selected>
+            --Select a Payee--
+          </option>
           {payeeList.map((item) => (
-            <option value={item}>{item}</option>
+            <option value={item} key={item}>
+              {item}
+            </option>
           ))}
-          <option value="add">+Add payee/payer</option>
+          <option class="disabled" disabled>
+            &nbsp;
+          </option>
+          <option value="">+Add payee/payer</option>
         </select>
         <br />
         <label>Mode of payment: </label>
@@ -112,6 +133,8 @@ const Input = () => {
           cols="20"
           onChange={(e) => setNote(e.target.value)}
         />
+        <br />
+        <button>Save</button>
       </form>
     </div>
   );
