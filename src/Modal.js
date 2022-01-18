@@ -1,10 +1,10 @@
 import "./modal.css";
 
-const Modal = ({ closingText, handleClose, show, children }) => {
+const Modal = ({ closingText, handleClose, show, setShowModal, children }) => {
   const showHideClassName = show ? "modal display-block" : "modal display-none";
 
   return (
-    <div className={showHideClassName}>
+    <div className={showHideClassName} onClick={(e) => setShowModal(false)}>
       <section className="modal-main">
         {children}
         <button onClick={handleClose}>{closingText}</button>
