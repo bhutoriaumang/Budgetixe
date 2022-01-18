@@ -78,7 +78,7 @@ const Input = () => {
           <option value="stocks">Stocks</option>
           <option value="crypto">Crypto</option>
           <option value="subscriptions">Monthly Subscriptions</option>
-          <option value="budget">Daily Budget</option>
+          <option value="transactions">Transactions</option>
         </select>
         <br />
         <label>Transaction Amount: </label>
@@ -99,7 +99,7 @@ const Input = () => {
         <br />
         <label>{inputType === "Expense" ? "Payee" : "Payer"}: </label>
         <select value={payee} onChange={handlePayeeChange}>
-          <option value="select" disabled selected>
+          <option value="select" disabled>
             --Select a Payee--
           </option>
           {payeeList.map((item) => (
@@ -107,7 +107,7 @@ const Input = () => {
               {item}
             </option>
           ))}
-          <option class="disabled" disabled>
+          <option className="disabled" disabled>
             &nbsp;
           </option>
           <option value="">+Add payee/payer</option>
@@ -120,7 +120,8 @@ const Input = () => {
         >
           <option value="cash">Cash</option>
           <option value="card">Debit/Credit Card</option>
-          <option value="transfer">Bank Transfer</option>
+          <option value="net-banking">Net Banking</option>
+          <option value="neft/rtgs">NEFT/RTGS</option>
           <option value="upi">UPI</option>
           <option value="others">Others</option>
         </select>

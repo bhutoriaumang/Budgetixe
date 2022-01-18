@@ -1,46 +1,72 @@
-.App{
-    height: 100vmax;
+.App {
+  height: 100vmax;
+  display: flex;
 }
 
-.nav-bar{
-    float: left;
-    height: 100%;
-    overflow: auto;
-    width: calc(18vw - 1px);
-    border-right: 1px solid black;
+.nav-bar {
+  float: left;
+  height: 100%;
+  overflow: auto;
+  width: calc(18vw - 1px);
 }
 
-.main-page{
-    overflow: auto;
-    float: right;
-    height: 100%;
-    width: 82vw;
-    background-color: #EEF2F9;
+.main-page {
+  overflow: auto;
+  float: right;
+  height: 100%;
+  width: 82vw;
+  background-color: #eef2f9;
+  border-left: 1px solid black;
 }
 
-.nav-bar a{
-    text-decoration: none;
-    color: black;
+.nav-bar a {
+  text-decoration: none;
+  color: black;
 }
 
-.dashboard-tag:hover, .input-tag:hover,.stock-tag:hover,.crypto-tag:hover,.budget-tag:hover,.goals-tag:hover,.subscription-tag:hover{
-    box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.1);
+.dashboard-tag:hover,
+.input-tag:hover,
+.stock-tag:hover,
+.crypto-tag:hover,
+.budget-tag:hover,
+.goals-tag:hover,
+.subscription-tag:hover {
+  box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.1);
 }
 
-.dashboard-tag, .input-tag,.stock-tag,.crypto-tag,.budget-tag,.goals-tag,.subscription-tag{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    margin-left: auto;
+.dashboard-tag,
+.input-tag,
+.stock-tag,
+.crypto-tag,
+.budget-tag,
+.goals-tag,
+.subscription-tag {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
 }
 
-.dashboard-tag p, .input-tag p,.stock-tag p,.crypto-tag p,.budget-tag p,.goals-tag p,.subscription-tag p{
-    font-size: min(2.5vh,1.5vw);
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+.dashboard-tag p,
+.input-tag p,
+.stock-tag p,
+.crypto-tag p,
+.budget-tag p,
+.goals-tag p,
+.subscription-tag p {
+  font-size: min(2.5vh, 1.5vw);
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
-.dashboard-icon,.input-icon,.stock-icon,.crypto-icon,.subscription-icon,.budget-icon,.goals-icon{
-    margin-left: 1vw;
-    margin-right: 1vw;
-    font-size: min(2.5vh,1.5vw);
+.dashboard-icon,
+.input-icon,
+.stock-icon,
+.crypto-icon,
+.subscription-icon,
+.budget-icon,
+.goals-icon {
+  margin-left: 1vw;
+  margin-right: 1vw;
+  font-size: min(2.5vh, 1.5vw);
 }

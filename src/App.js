@@ -4,7 +4,7 @@ import { BsGraphUp, BsCurrencyBitcoin } from "react-icons/bs";
 import { BiMoney, BiDollar } from "react-icons/bi";
 import { GiStairsGoal } from "react-icons/gi";
 import { IconContext } from "react-icons/lib";
-import { BrowserRouter as Router, Switch, Route,Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Input from "./Input";
 import Stock from "./Stock";
@@ -12,13 +12,14 @@ import Crypto from "./Crypto";
 import Budget from "./Budget";
 import Subscription from "./Subscription";
 import Goals from "./Goals";
+import Error404 from "./Error404";
 
 function App() {
   return (
     <Router>
       <div className="App">
         <div className="nav-bar">
-          <Link to="/dashboard">
+          <Link to="/">
             <div className="dashboard-tag">
               <IconContext.Provider value={{ className: "dashboard-icon" }}>
                 <FaHome />
@@ -77,26 +78,29 @@ function App() {
         </div>
         <div className="main-page">
           <Switch>
-            <Route path="/dashboard">
-              < Dashboard />
+            <Route exact path="/">
+              <Dashboard />
             </Route>
-            <Route path="/input">
-            < Input />
+            <Route exact path="/input">
+              <Input />
             </Route>
-            <Route path="/stock">
-            < Stock />
+            <Route exact path="/stock">
+              <Stock />
             </Route>
-            <Route path="/crypto">
-            < Crypto />
+            <Route exact path="/crypto">
+              <Crypto />
             </Route>
-            <Route path="/budget">
-            < Budget />
+            <Route exact path="/budget">
+              <Budget />
             </Route>
-            <Route path="/subscription">
-            < Subscription />
+            <Route exact path="/subscription">
+              <Subscription />
             </Route>
-            <Route path="/goals">
-            < Goals />
+            <Route exact path="/goals">
+              <Goals />
+            </Route>
+            <Route path="/*">
+              <Error404 />
             </Route>
           </Switch>
         </div>
