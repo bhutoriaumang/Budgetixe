@@ -1,39 +1,46 @@
+.App{
+    height: 100vmax;
+}
+
 .nav-bar{
     float: left;
-    height: 100vmax;
-    width: 20vw;
+    height: 100%;
+    overflow: auto;
+    width: calc(18vw - 1px);
     border-right: 1px solid black;
-    position: fixed;
 }
 
 .main-page{
+    overflow: auto;
     float: right;
-    height: 100vh;
-    width: 79.93vw;
+    height: 100%;
+    width: 82vw;
     background-color: #EEF2F9;
 }
 
 .nav-bar a{
-    font-size: 25px;
-    width: 20vw;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    margin: 10px;
-    padding: 5px;
     text-decoration: none;
     color: black;
-    /* border: 1px solid black; */
 }
 
-
-.home-tag{
-    margin-top: 30vh;
-}
-
-.home-tag:hover, .input-tag:hover,.stock-tag:hover,.crypto-tag:hover,.budget-tag:hover,.goals-tag:hover,.subscription-tag:hover{
+.dashboard-tag:hover, .input-tag:hover,.stock-tag:hover,.crypto-tag:hover,.budget-tag:hover,.goals-tag:hover,.subscription-tag:hover{
     box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.1);
 }
 
-.home-icon,.input-icon,.stock-icon,.crypto-icon,.subscription-icon,.budget-icon,.goals-icon{
+.dashboard-tag, .input-tag,.stock-tag,.crypto-tag,.budget-tag,.goals-tag,.subscription-tag{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.dashboard-tag p, .input-tag p,.stock-tag p,.crypto-tag p,.budget-tag p,.goals-tag p,.subscription-tag p{
+    font-size: min(2.5vh,1.5vw);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.dashboard-icon,.input-icon,.stock-icon,.crypto-icon,.subscription-icon,.budget-icon,.goals-icon{
     margin-left: 1vw;
-    font-size: 25px;
+    margin-right: 1vw;
+    font-size: min(2.5vh,1.5vw);
 }
