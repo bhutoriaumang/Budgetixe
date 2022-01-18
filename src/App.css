@@ -1,0 +1,39 @@
+.nav-bar{
+    float: left;
+    height: 100vmax;
+    width: 20vw;
+    border-right: 1px solid black;
+    position: fixed;
+}
+
+.main-page{
+    float: right;
+    height: 100vh;
+    width: 79.93vw;
+    background-color: #EEF2F9;
+}
+
+.nav-bar a{
+    font-size: 25px;
+    width: 20vw;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin: 10px;
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+    /* border: 1px solid black; */
+}
+
+
+.home-tag{
+    margin-top: 30vh;
+}
+
+.home-tag:hover, .input-tag:hover,.stock-tag:hover,.crypto-tag:hover,.budget-tag:hover,.goals-tag:hover,.subscription-tag:hover{
+    box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.1);
+}
+
+.home-icon,.input-icon,.stock-icon,.crypto-icon,.subscription-icon,.budget-icon,.goals-icon{
+    margin-left: 1vw;
+    font-size: 25px;
+}
