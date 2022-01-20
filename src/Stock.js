@@ -1,15 +1,14 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from "react";
 import {
-    LineChart,
-    ResponsiveContainer,
-    Legend, Tooltip,
-    Line,
-    XAxis,
-    YAxis,
-    CartesianGrid
-} from 'recharts';
-
-
+  LineChart,
+  ResponsiveContainer,
+  Legend,
+  Tooltip,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+} from "recharts";
 
 // Sample chart data
 
