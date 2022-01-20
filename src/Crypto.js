@@ -2,7 +2,7 @@ import useFetch from "./useFetch";
 import Chart from "./Chart";
 
 const Crypto = () => {
-  const { data, isPending, error } = useFetch("http://localhost:5000/crypto/");
+  const { data, isPending, error } = useFetch("http://localhost:8000/crypto/");
 
   return (
     <div>
