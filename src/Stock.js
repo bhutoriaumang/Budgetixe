@@ -37,7 +37,7 @@ const Stock = () => {
                         var date = key.substr(8)+'/'+key.substr(5,2)+'/'+key.substr(2,2);
                         list.push({name: date , value: parseFloat(data['Time Series (Daily)'][key]['1. open'])})
                     }
-                    list.length = 5;
+                    // list.length = 5;
                     list = list.reverse();
                     setPdata(list);
                     setIsDataPresent(true);
@@ -49,13 +49,14 @@ const Stock = () => {
     
     },[baseURL])
     return (
-        <div className="graph">
+        <div className="stock-page">
             { !isDataPresent && <p>Loading...</p> }
-            { isDataPresent && <ResponsiveContainer width="100%" aspect={2}>
-                <LineChart data={pdata} margin={{ right: 300, left: 200, top: 200 }}>
+            <div className="graph">
+            { isDataPresent && <ResponsiveContainer width= "85%" aspect={2}>
+                <LineChart data={pdata} margin={{ right: 0, left: 0, top: 0 }}>
                     <CartesianGrid />
                     <XAxis dataKey="name" 
-                        interval={'preserveStartEnd'} />
+                        interval={'preserveStartEnd'}/>
                     <YAxis ></YAxis>
                     <Legend />
                     <Tooltip />
@@ -63,6 +64,7 @@ const Stock = () => {
                         stroke="black" activeDot={{ r: 8 }} />
                 </LineChart>
             </ResponsiveContainer>}
+            </div>
         </div>
     );
 }
