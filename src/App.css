@@ -75,10 +75,61 @@
 .stock-page{
   width: inherit;
   height: inherit;
+  display: flex;
 }
 
-.graph{
+.stock-graph{
+  height: 40vh;
+  width: 60%;
   margin-top: 20vh;
-  margin-left: 11vw;
-  margin-right: 11vw;
+  margin-left: 5vw;
+  padding-right: 2vw;
+  padding-top: 3vh;
+  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.side-cards{
+  width: 20%;
+  height: 40vh;
+  margin-top: 20vh;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.stock-info{
+  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin-top: 4vh;
+  height: 15vh;
+}
+
+.stock-net{
+  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin-top: 5vh;
+  height: 15vh;
+}
+
+.stock-green{
+  color: green;
+  font-size: min(2vh,1.2vw);
+}
+
+.stock-red{
+  color: red;
+}
+
+.stock-value{
+  font-size: min(2.5vh,1.5vw);
+  padding-top: 3vh;
+  text-align: center;
+}
+
+.stock-data{
+  justify-content: space-between;
+  display: flex;
+  text-align: justify;
+  padding-left: 2vw;
+  padding-right: 2vw;
 }
