@@ -9,7 +9,7 @@ import Dashboard from "./Dashboard";
 import Input from "./Input";
 import Stock from "./Stock";
 import Crypto from "./Crypto";
-import Budget from "./Budget";
+import Transactions from "./Transactions";
 import Subscription from "./Subscription";
 import Goals from "./Goals";
 import Error404 from "./Error404";
@@ -20,56 +20,56 @@ function App() {
       <div className="App">
         <div className="nav-bar">
           <Link to="/">
-            <div className="dashboard-tag">
-              <IconContext.Provider value={{ className: "dashboard-icon" }}>
+            <div className="navbar-tag">
+              <IconContext.Provider value={{ className: "navbar-icon" }}>
                 <FaHome />
               </IconContext.Provider>
               <p>Dashboard</p>
             </div>
           </Link>
           <Link to="/input">
-            <div className="input-tag">
-              <IconContext.Provider value={{ className: "input-icon" }}>
+            <div className="navbar-tag">
+              <IconContext.Provider value={{ className: "navbar-icon" }}>
                 <FaWpforms />
               </IconContext.Provider>
               <p>Input</p>
             </div>
           </Link>
           <Link to="/stock">
-            <div className="stock-tag">
-              <IconContext.Provider value={{ className: "stock-icon" }}>
+            <div className="navbar-tag">
+              <IconContext.Provider value={{ className: "navbar-icon" }}>
                 <BsGraphUp />
               </IconContext.Provider>
               <p>Stock</p>
             </div>
           </Link>
           <Link to="/crypto">
-            <div className="crypto-tag">
-              <IconContext.Provider value={{ className: "crypto-icon" }}>
+            <div className="navbar-tag">
+              <IconContext.Provider value={{ className: "navbar-icon" }}>
                 <BsCurrencyBitcoin />
               </IconContext.Provider>
               <p>Crypto</p>
             </div>
           </Link>
-          <Link to="/budget">
-            <div className="budget-tag">
-              <IconContext.Provider value={{ className: "budget-icon" }}>
+          <Link to="/transactions">
+            <div className="navbar-tag">
+              <IconContext.Provider value={{ className: "navbar-icon" }}>
                 <BiDollar />
               </IconContext.Provider>
-              <p>Budget</p>
+              <p>Transactions</p>
             </div>
           </Link>
           <Link to="/subscription">
-            <div className="subscription-tag">
-              <IconContext.Provider value={{ className: "subscription-icon" }}>
+            <div className="navbar-tag">
+              <IconContext.Provider value={{ className: "navbar-icon" }}>
                 <BiMoney />
               </IconContext.Provider>
               <p>Subscription</p>
             </div>
           </Link>
           <Link to="/goals">
-            <div className="goals-tag">
-              <IconContext.Provider value={{ className: "goals-icon" }}>
+            <div className="navbar-tag">
+              <IconContext.Provider value={{ className: "navbar-icon" }}>
                 <GiStairsGoal />
               </IconContext.Provider>
               <p>Goals</p>
@@ -90,8 +90,8 @@ function App() {
             <Route exact path="/crypto">
               <Crypto />
             </Route>
-            <Route exact path="/budget">
-              <Budget />
+            <Route exact path="/transactions">
+              <Transactions />
             </Route>
             <Route exact path="/subscription">
               <Subscription />

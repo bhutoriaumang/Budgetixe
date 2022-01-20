@@ -16,3 +16,7 @@ code {
   font-size: 1pt;
   background-color: gray;
 }
+
+.input-form .form-control {
+  display: block;
+}

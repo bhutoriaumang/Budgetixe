@@ -1,5 +1,10 @@
 import { useState } from "react";
 import Modal from "./Modal.js";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import { Button, MenuItem, Select, TextField } from "@mui/material";
 
 const Input = () => {
   const [inputType, setInputType] = useState("Expense");
@@ -7,7 +12,7 @@ const Input = () => {
   const [amount, setAmount] = useState(0.0);
   const [date, setDate] = useState("");
   const [payee, setPayee] = useState("select");
-  const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("cash");
   const [note, setNote] = useState("");
   const [addPayee, setAddPayee] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -53,42 +58,46 @@ const Input = () => {
           />
         </form>
       </Modal>
-      <form>
-        <input
-          type="radio"
-          name="type"
-          value="Expense"
-          defaultChecked
-          onChange={handleInputTypeChange}
-        />
-        Expense
-        <input
-          type="radio"
-          name="type"
-          value="Income"
-          onChange={handleInputTypeChange}
-        />
-        Income
-        <br />
-        <label>Where did you made this transaction?</label>
-        <select
-          value={transactionType}
-          onChange={(e) => setTransactionType(e.target.value)}
-        >
-          <option value="stocks">Stocks</option>
-          <option value="crypto">Crypto</option>
-          <option value="subscriptions">Monthly Subscriptions</option>
-          <option value="transactions">Transactions</option>
-        </select>
-        <br />
-        <label>Transaction Amount: </label>
-        <input
-          type="number"
-          required
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
-        <br />
+      <form className="input-form">
+        <FormControl id="abc" className="form-control">
+          <RadioGroup row value={inputType} onChange={handleInputTypeChange}>
+            <FormControlLabel
+              value="Expense"
+              control={<Radio />}
+              label="Expense"
+            />
+            <FormControlLabel
+              value="Income"
+              control={<Radio />}
+              label="Income"
+            />
+          </RadioGroup>
+        </FormControl>
+
+        <FormControl variant="filled" className="form-control">
+          <label>Where did you made this transaction?</label>
+          <Select
+            value={transactionType}
+            onChange={(e) => setTransactionType(e.target.value)}
+          >
+            <MenuItem value="stocks">Stocks</MenuItem>
+            <MenuItem value="crypto">Crypto</MenuItem>
+            <MenuItem value="subscriptions">Monthly Subscriptions</MenuItem>
+            <MenuItem value="transactions">Transactions</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl variant="filled" className="form-control">
+          <label>Transaction Amount: </label>
+          <TextField
+            variant="filled"
+            type="number"
+            required
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+        </FormControl>
+
         <label>Date of Transaction: </label>
         <input
           type="date"
@@ -96,46 +105,53 @@ const Input = () => {
           value={date}
           onChange={(e) => setDate(e.target.value)}
         />
-        <br />
-        <label>{inputType === "Expense" ? "Payee" : "Payer"}: </label>
-        <select value={payee} onChange={handlePayeeChange}>
-          <option value="select" disabled>
-            --Select a Payee--
-          </option>
-          {payeeList.map((item) => (
-            <option value={item} key={item}>
-              {item}
+
+        <FormControl variant="filled" className="form-control">
+          <label>{inputType === "Expense" ? "Payee" : "Payer"}: </label>
+          <Select value={payee} onChange={handlePayeeChange}>
+            <MenuItem value="select" disabled>
+              <em>--Select a Payee--</em>
+            </MenuItem>
+            {payeeList.map((item) => (
+              <MenuItem value={item} key={item}>
+                {item}
+              </MenuItem>
+            ))}
+            <option className="disabled" disabled>
+              &nbsp;
             </option>
-          ))}
-          <option className="disabled" disabled>
-            &nbsp;
-          </option>
-          <option value="">+Add payee/payer</option>
-        </select>
-        <br />
-        <label>Mode of payment: </label>
-        <select
-          value={paymentMethod}
-          onChange={(e) => setPaymentMethod(e.target.value)}
-        >
-          <option value="cash">Cash</option>
-          <option value="card">Debit/Credit Card</option>
-          <option value="net-banking">Net Banking</option>
-          <option value="neft/rtgs">NEFT/RTGS</option>
-          <option value="upi">UPI</option>
-          <option value="others">Others</option>
-        </select>
-        <br />
-        <label>Notes: </label>
-        <textarea
-          value={note}
-          placeholder="(Optional)"
-          rows="5"
-          cols="20"
-          onChange={(e) => setNote(e.target.value)}
-        />
-        <br />
-        <button>Save</button>
+            <MenuItem value="">+Add payee/payer</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl variant="filled" className="form-control">
+          <label>Mode of payment: </label>
+          <Select
+            value={paymentMethod}
+            onChange={(e) => setPaymentMethod(e.target.value)}
+          >
+            <MenuItem value="cash">Cash</MenuItem>
+            <MenuItem value="card">Debit/Credit Card</MenuItem>
+            <MenuItem value="net-banking">Net Banking</MenuItem>
+            <MenuItem value="neft/rtgs">NEFT/RTGS</MenuItem>
+            <MenuItem value="upi">UPI</MenuItem>
+            <MenuItem value="others">Others</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl className="form-control">
+          <label>Notes:</label>
+          <TextField
+            variant="filled"
+            value={note}
+            placeholder="(Optional)"
+            multiline
+            minRows={3}
+            onChange={(e) => setNote(e.target.value)}
+          />
+        </FormControl>
+
+        <Button variant="contained">Save</Button>
       </form>
     </div>
   );
