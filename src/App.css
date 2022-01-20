@@ -15,6 +15,7 @@
   float: right;
   height: 100%;
   width: 82vw;
+  padding: 10px;
   background-color: #eef2f9;
   border-left: 1px solid black;
 }
@@ -24,48 +25,24 @@
   color: black;
 }
 
-.dashboard-tag:hover,
-.input-tag:hover,
-.stock-tag:hover,
-.crypto-tag:hover,
-.budget-tag:hover,
-.goals-tag:hover,
-.subscription-tag:hover {
+.navbar-tag:hover {
   box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.1);
 }
 
-.dashboard-tag,
-.input-tag,
-.stock-tag,
-.crypto-tag,
-.budget-tag,
-.goals-tag,
-.subscription-tag {
+.navbar-tag {
   width: 100%;
   display: flex;
   align-items: center;
   margin-left: auto;
 }
 
-.dashboard-tag p,
-.input-tag p,
-.stock-tag p,
-.crypto-tag p,
-.budget-tag p,
-.goals-tag p,
-.subscription-tag p {
+.navbar-tag p {
   font-size: min(2.5vh, 1.5vw);
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
-.dashboard-icon,
-.input-icon,
-.stock-icon,
-.crypto-icon,
-.subscription-icon,
-.budget-icon,
-.goals-icon {
+.navbar-icon {
   margin-left: 1vw;
   margin-right: 1vw;
   font-size: min(2.5vh, 1.5vw);
