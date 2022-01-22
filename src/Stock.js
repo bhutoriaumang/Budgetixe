@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { AiFillCaretUp, AiFillCaretDown } from 'react-icons/ai';
 import {
   AreaChart,
   Area,
@@ -20,7 +21,7 @@ const Stock = () => {
     const fetchStock = (symbol) => {
       const API_KEY = "5ESBFJPMQ7O56KWH";
       let StockSymbol = symbol;
-      let API_Call = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${StockSymbol}&outputsize=compact&&apikey=${API_KEY}`;
+      let API_Call = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${StockSymbol}&&apikey=${API_KEY}`;
 
       fetch(API_Call)
         .then(function (response) {
@@ -46,7 +47,7 @@ const Stock = () => {
     };
 
     fetchStock("MSFT");
-  }, [baseURL]);
+  }, []);
   return (
     <div className="stock-page">
       {!isDataPresent && <p>Loading...</p>}
@@ -60,7 +61,8 @@ const Stock = () => {
                 right: 0,
                 left: 0,
                 bottom: 0,
-              }}
+              }
+            }
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
@@ -73,8 +75,9 @@ const Stock = () => {
               <Area
                 type="monotone"
                 dataKey="value"
-                stroke="#8884d8"
-                fill="#8884d8"
+                stroke={ (priceChange>0)?"green":"red" }
+                fill={ (priceChange>0)?"lightgreen":"lightcoral" }
+                fillOpacity="0.3"
               />
             </AreaChart>
           </ResponsiveContainer>
@@ -82,37 +85,23 @@ const Stock = () => {
       </div>
       {isDataPresent && (
         <div className="side-cards">
-          <div className="stock-info">
-            <div className="stock-value">
-              ${pdata[pdata.length - 1]["value"]}
-            </div>
-            {priceChange <= 0 ? (
-              <div className="stock-data">
-                <p className="stock-red">{priceChange.toFixed(2)}</p>{" "}
-                <p className="stock-red">
-                  {" "}
-                  {(
-                    (priceChange * 100) /
-                    pdata[pdata.length - 2]["value"]
-                  ).toFixed(2)}
-                  %
-                </p>
-              </div>
-            ) : (
-              <div className="stock-data">
-                <p className="stock-green">+{priceChange.toFixed(2)}</p>{" "}
-                <p className="stock-green">
-                  {" "}
-                  {(
-                    (priceChange * 100) /
-                    pdata[pdata.length - 2]["value"]
-                  ).toFixed(2)}
-                  %
-                </p>
-              </div>
-            )}
-        </div>
-              <div className="stock-net"></div>      
+          <div className="stock-name">MSFT</div>
+          <div className="stock-currentval">
+            <div className="stock-currentval-label">Current Value</div>
+            <div className="stock-currentval-value">{ pdata[pdata.length-1]['value'] } USD</div>
+          </div>
+          <div className="stock-currentval">
+            <div className="stock-currentval-label">Net Inc/Dec</div>
+            <div className={ (priceChange<=0)?"red ":"green "}>{ (priceChange>0)?<AiFillCaretUp />:<AiFillCaretDown /> }{ ((priceChange*100)/pdata[pdata.length-2]['value']).toFixed(2) }%</div>
+          </div>
+          <div className="stock-currentval">
+            <div className="stock-currentval-label">Stocks Owned</div>
+            <div className="stock-currentval-value">500</div>
+          </div>
+          <div className="stock-currentval">
+            <div className="stock-currentval-label">Net Profit/Loss</div>
+            <div className={ (priceChange<=0)?"red ":"green "}>{ (priceChange>0)?<AiFillCaretUp />:<AiFillCaretDown /> }{ (500*priceChange).toFixed(2) } USD</div>
+          </div>
         </div>
       )}
     </div>

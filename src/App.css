@@ -58,7 +58,7 @@
 .stock-graph{
   height: 40vh;
   width: 60%;
-  margin-top: 20vh;
+  margin-top: 10vh;
   margin-left: 5vw;
   padding-right: 2vw;
   padding-top: 3vh;
@@ -69,44 +69,59 @@
 .side-cards{
   width: 20%;
   height: 40vh;
-  margin-top: 20vh;
+  margin-top: 10vh;
   margin-left: auto;
   margin-right: auto;
 }
 
-.stock-info{
+.stock-name{
   box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  margin-top: 4vh;
-  height: 15vh;
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  width: 50%;
+  border-radius: 20px;
+  justify-content: center;
+  font-size: 2.5vh;
+  font-weight: 500;
+  margin-top: 3vh;
 }
 
-.stock-net{
+.stock-currentval{
+  margin-top: 3vh;
+  height: 5vh;
   box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  margin-top: 5vh;
-  height: 15vh;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-radius: 20px;
 }
 
-.stock-green{
+.stock-currentval-label{
+  width: 55%;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid black;
+  height: inherit;
+  justify-content: center;
+  font-size: 1.5vh;
+  overflow: auto;
+}
+
+.green{
   color: green;
-  font-size: min(2vh,1.2vw);
 }
 
-.stock-red{
+.red{
   color: red;
 }
 
-.stock-value{
-  font-size: min(2.5vh,1.5vw);
-  padding-top: 3vh;
-  text-align: center;
-}
-
-.stock-data{
-  justify-content: space-between;
+.stock-currentval-value,.green,.red{
+  overflow: auto;
+  font-size: 1.5vh;
+  justify-content: center;
+  width: 45%;
   display: flex;
-  text-align: justify;
-  padding-left: 2vw;
-  padding-right: 2vw;
+  align-items: center;
+  height: inherit;
 }
