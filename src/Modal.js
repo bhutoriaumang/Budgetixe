@@ -1,41 +1,23 @@
-import "./modal.css";
-import { useCallback, useEffect } from "react";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
 
-const Modal = ({ closingText, handleClose, show, setShowModal, children }) => {
-  const escFunction = useCallback(
-    (event) => {
-      if (event.keyCode === 27) {
-        setShowModal(false);
-      }
-    },
-    [setShowModal]
-  );
-
-  const showHideClassName = show ? "modal display-block" : "modal display-none";
-
-  const handleClick = (e) => {
-    if (e.target === e.currentTarget) setShowModal(false);
-  };
-  useEffect(() => {
-    document.addEventListener("keydown", escFunction);
-
-    return () => {
-      document.removeEventListener("keydown", escFunction);
-    };
-  }, [escFunction]);
-
-  return (
-    <div
-      className={showHideClassName}
-      onClick={handleClick}
-      onKeyPress={handleClick}
-    >
-      <section className="modal-main">
-        {children}
-        <button onClick={handleClose}>{closingText}</button>
-      </section>
-    </div>
-  );
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "white",
+  borderRadius: "5px",
+  padding: "0 2vw 3vh",
 };
 
-export default Modal;
+export default function BasicModal({ showModal, handleClose, children }) {
+  return (
+    <div>
+      <Modal open={showModal} onClose={handleClose}>
+        <Box sx={style}>{children}</Box>
+      </Modal>
+    </div>
+  );
+}

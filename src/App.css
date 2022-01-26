@@ -48,14 +48,13 @@
   font-size: min(2.5vh, 1.5vw);
 }
 
-
-.stock-page{
+.stock-page {
   width: inherit;
   height: inherit;
   display: flex;
 }
 
-.stock-graph{
+.stock-graph {
   height: 40vh;
   width: 60%;
   margin-top: 5vh;
@@ -80,7 +79,7 @@
   border-bottom-style: groove;
 }
 
-.side-cards{
+.side-cards {
   width: 20%;
   height: 40vh;
   margin-top: 5vh;
@@ -88,7 +87,7 @@
   margin-right: auto;
 }
 
-.stock-name{
+.stock-name {
   box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
   height: 5vh;
   display: flex;
@@ -101,7 +100,7 @@
   margin-top: 3vh;
 }
 
-.stock-currentval{
+.stock-currentval {
   margin-top: 3vh;
   height: 5vh;
   box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
@@ -111,7 +110,7 @@
   border-radius: 20px;
 }
 
-.stock-currentval-label{
+.stock-currentval-label {
   width: 55%;
   display: flex;
   align-items: center;
@@ -122,15 +121,17 @@
   overflow: auto;
 }
 
-.green{
+.green {
   color: green;
 }
 
-.red{
+.red {
   color: red;
 }
 
-.stock-currentval-value,.green,.red{
+.stock-currentval-value,
+.green,
+.red {
   overflow: auto;
   font-size: 1.5vh;
   justify-content: center;
@@ -138,4 +139,50 @@
   display: flex;
   align-items: center;
   height: inherit;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.input {
+  display: inline-block;
+  background-color: white;
+  padding: 0 2vw;
+  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+h2 {
+  text-align: center;
+  margin: 1vh 0;
+}
+
+.input-form {
+  padding-bottom: 2.5vh;
+}
+
+.input-form .form-control {
+  display: block;
+  padding: 1.2vh 0;
+}
+
+.input-modal .button-container {
+  text-align: center;
+  padding-top: 3vh;
+}
+
+.input-form .button-container {
+  text-align: center;
+}
+
+.disabled {
+  font-size: 1pt;
+  background-color: gray;
+}
+
+.MuiOutlinedInput-input {
+  padding-top: 10.5px !important;
+  padding-bottom: 10.5px !important;
 }
