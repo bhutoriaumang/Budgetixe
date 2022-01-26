@@ -184,7 +184,8 @@ h2 {
   padding-top: 3vh;
 }
 
-.input-form .button-container {
+.input-form .button-container,
+.loading-tag {
   text-align: center;
 }
 
@@ -196,4 +197,27 @@ h2 {
 .MuiOutlinedInput-input {
   padding-top: 10.5px !important;
   padding-bottom: 10.5px !important;
+}
+
+.loading-anim {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.loading-tag::after {
+  animation: ellipsis 1.25s infinite;
+  content: ".";
+}
+
+@keyframes ellipsis {
+  0% {
+    content: ".";
+  }
+  33% {
+    content: "..";
+  }
+  66% {
+    content: "...";
+  }
 }
