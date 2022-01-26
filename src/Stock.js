@@ -10,13 +10,16 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-// Sample chart data
+var stocksOwned = [{"name":"MSFT" , "stocks":500},{"name":"IBM","stocks":100}];
 
 const Stock = () => {
   const [pdata, setPdata] = useState([]);
   const [isDataPresent, setIsDataPresent] = useState(false);
   const [priceChange, setPriceChange] = useState(0.0);
-  const baseURL = "http://localhost:3000/stock";
+  const [selectedStock, setSelectedStock] = useState(stocksOwned[0]["name"])
+  const [selectedStockValue, setSelectedStockValue] = useState(stocksOwned[0]["stocks"])
+  const [graphData, setGraphData] = useState({});
+  
   useEffect(() => {
     const fetchStock = (symbol) => {
       const API_KEY = "5ESBFJPMQ7O56KWH";
@@ -28,30 +31,55 @@ const Stock = () => {
           return response.json();
         })
         .then(function (data) {
-          console.log(data);
-          var list = [];
+          let list = [];
           for (var key in data["Time Series (Daily)"]) {
-            var date =
-              key.substr(8) + "/" + key.substr(5, 2) + "/" + key.substr(2, 2);
             list.push({
               name: key,
               value: parseFloat(data["Time Series (Daily)"][key]["4. close"]),
             });
           }
-          // list.length = 5;
-          setPriceChange(list[0]["value"] - list[1]["value"]);
-          list = list.reverse();
-          setPdata(list);
+          let x = graphData;
+          x[symbol] = list.reverse();
+          setGraphData(x);
+          let t = graphData[selectedStock];
+          setPriceChange(t[t.length - 1]["value"] - t[t.length - 2]["value"]);
+          setPdata(t);
           setIsDataPresent(true);
         });
-    };
+      };
+      let select_element = document.getElementById("stock");
+      for(var i=0;i<stocksOwned.length;i++){
+        let newOption = new Option(stocksOwned[i]["name"],stocksOwned[i]["stocks"]);
+        fetchStock(stocksOwned[i]["name"]);
+        select_element.appendChild(newOption);
+      }
+    }, []);
+    
+    useEffect(()=>{
+      if(Object.keys(graphData).length!=0){
+        let list = graphData[selectedStock];
+        setPriceChange(list[list.length - 1]["value"] - list[list.length - 2]["value"]);
+        setPdata(list);
+        setIsDataPresent(true);
+      }
+  },[selectedStock])
 
-    fetchStock("MSFT");
-  }, []);
+  const stockChanged = () =>{
+    let select_element = document.getElementById("stock");
+    setSelectedStock(select_element.options[select_element.selectedIndex].text);
+    setSelectedStockValue(select_element.options[select_element.selectedIndex].value);
+  }
+
   return (
-    <div className="stock-page">
+    <div className="total-stock-page">
+      <div className="dropdown">
+        <select name="Stock" id="stock" onChange={ stockChanged }>
+        </select>
+      </div>
+      <div className="stock-page">
+      
       {!isDataPresent && <p>Loading...</p>}
-      <div className="stock-graph">
+      {isDataPresent &&  <div className="stock-graph">
         {isDataPresent && (
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
@@ -82,10 +110,10 @@ const Stock = () => {
             </AreaChart>
           </ResponsiveContainer>
         )}
-      </div>
+      </div>}
       {isDataPresent && (
         <div className="side-cards">
-          <div className="stock-name">MSFT</div>
+          <div className="stock-name">{ selectedStock }</div>
           <div className="stock-currentval">
             <div className="stock-currentval-label">Current Value</div>
             <div className="stock-currentval-value">{ pdata[pdata.length-1]['value'] } USD</div>
@@ -96,14 +124,15 @@ const Stock = () => {
           </div>
           <div className="stock-currentval">
             <div className="stock-currentval-label">Stocks Owned</div>
-            <div className="stock-currentval-value">500</div>
+            <div className="stock-currentval-value">{ selectedStockValue }</div>
           </div>
           <div className="stock-currentval">
             <div className="stock-currentval-label">Net Profit/Loss</div>
-            <div className={ (priceChange<=0)?"red ":"green "}>{ (priceChange>0)?<AiFillCaretUp />:<AiFillCaretDown /> }{ (500*priceChange).toFixed(2) } USD</div>
+            <div className={ (priceChange<=0)?"red ":"green "}>{ (priceChange>0)?<AiFillCaretUp />:<AiFillCaretDown /> }{ (selectedStockValue*priceChange).toFixed(2) } USD</div>
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };

@@ -15,6 +15,8 @@ import Goals from "./Goals";
 import Error404 from "./Error404";
 
 function App() {
+
+
   return (
     <Router>
       <div className="App">

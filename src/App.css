@@ -57,18 +57,32 @@
 .stock-graph {
   height: 40vh;
   width: 60%;
-  margin-top: 10vh;
+  margin-top: 5vh;
   margin-left: 5vw;
   padding-right: 2vw;
   padding-top: 3vh;
   box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+  font-size: min(2vh,1.5vw);
+}
+
+.dropdown select{
+  margin-top: 5vh;
+  margin-left: 5vw;
+  width: 10%;
+  height: 5vh;
+  font-size: min(2vh,1.5vw);
+  background-color: transparent;
+  border-style: none;
+  border: none;
+  outline: none;
+  border-bottom-style: groove;
 }
 
 .side-cards {
   width: 20%;
   height: 40vh;
-  margin-top: 10vh;
+  margin-top: 5vh;
   margin-left: auto;
   margin-right: auto;
 }
