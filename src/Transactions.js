@@ -1,4 +1,4 @@
-import Transactiontable from "./TransactionTable";
+import Transactiontable from "./components/TransactionTable";
 
 const Transactions = () => {
   const columns = [

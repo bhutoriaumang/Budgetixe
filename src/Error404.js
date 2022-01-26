@@ -1,7 +1,7 @@
 import { Button, Paper } from "@mui/material";
 import { Link } from "react-router-dom";
 import Lottie from "lottie-react";
-import errorPageAnim from "./error-page-anim.json";
+import errorPageAnim from "./assets/error-page-anim.json";
 
 const Error404 = () => {
   return (

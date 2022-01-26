@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Radio from "@mui/material/Radio";
-import Modal from "./Modal.js";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import { Button, MenuItem, Select, TextField } from "@mui/material";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import Modal from "./components/Modal.js";
 
 const Input = () => {
   const [inputType, setInputType] = useState("Expense");

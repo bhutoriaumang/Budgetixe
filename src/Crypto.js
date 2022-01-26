@@ -1,5 +1,5 @@
-import useFetch from "./useFetch";
-import Chart from "./Chart";
+import useFetch from "./hooks/useFetch";
+import Chart from "./components/Chart";
 
 const Crypto = () => {
   const { data, isPending, error } = useFetch("http://localhost:8000/crypto/");

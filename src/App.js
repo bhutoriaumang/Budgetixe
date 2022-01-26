@@ -1,10 +1,5 @@
-import "./App.css";
-import { FaHome, FaWpforms } from "react-icons/fa";
-import { BsGraphUp, BsCurrencyBitcoin } from "react-icons/bs";
-import { BiMoney, BiDollar } from "react-icons/bi";
-import { GiStairsGoal } from "react-icons/gi";
-import { IconContext } from "react-icons/lib";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import "./styles/App.css";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Input from "./Input";
 import Stock from "./Stock";
@@ -13,7 +8,7 @@ import Transactions from "./Transactions";
 import Subscription from "./Subscription";
 import Goals from "./Goals";
 import Error404 from "./Error404";
-import Navbar from "./Navbar";
+import Navbar from "./components/Navbar";
 import { useState } from "react";
 
 function App() {
