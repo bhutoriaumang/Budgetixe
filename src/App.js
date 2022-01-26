@@ -13,76 +13,26 @@ import Transactions from "./Transactions";
 import Subscription from "./Subscription";
 import Goals from "./Goals";
 import Error404 from "./Error404";
+import Navbar from "./Navbar";
+import { useState } from "react";
 
 function App() {
-
+  const [error, setError] = useState(false);
 
   return (
     <Router>
       <div className="App">
-        <div className="nav-bar">
-          <Link to="/">
-            <div className="navbar-tag">
-              <IconContext.Provider value={{ className: "navbar-icon" }}>
-                <FaHome />
-              </IconContext.Provider>
-              <p>Dashboard</p>
-            </div>
-          </Link>
-          <Link to="/input">
-            <div className="navbar-tag">
-              <IconContext.Provider value={{ className: "navbar-icon" }}>
-                <FaWpforms />
-              </IconContext.Provider>
-              <p>Input</p>
-            </div>
-          </Link>
-          <Link to="/stock">
-            <div className="navbar-tag">
-              <IconContext.Provider value={{ className: "navbar-icon" }}>
-                <BsGraphUp />
-              </IconContext.Provider>
-              <p>Stock</p>
-            </div>
-          </Link>
-          <Link to="/crypto">
-            <div className="navbar-tag">
-              <IconContext.Provider value={{ className: "navbar-icon" }}>
-                <BsCurrencyBitcoin />
-              </IconContext.Provider>
-              <p>Crypto</p>
-            </div>
-          </Link>
-          <Link to="/transactions">
-            <div className="navbar-tag">
-              <IconContext.Provider value={{ className: "navbar-icon" }}>
-                <BiDollar />
-              </IconContext.Provider>
-              <p>Transactions</p>
-            </div>
-          </Link>
-          <Link to="/subscription">
-            <div className="navbar-tag">
-              <IconContext.Provider value={{ className: "navbar-icon" }}>
-                <BiMoney />
-              </IconContext.Provider>
-              <p>Subscription</p>
-            </div>
-          </Link>
-          <Link to="/goals">
-            <div className="navbar-tag">
-              <IconContext.Provider value={{ className: "navbar-icon" }}>
-                <GiStairsGoal />
-              </IconContext.Provider>
-              <p>Goals</p>
-            </div>
-          </Link>
-        </div>
+        {!error && <Navbar />}
         <div className="main-page">
           <Switch>
-            <Route exact path="/">
-              <Dashboard />
-            </Route>
+            <Route
+              exact
+              path="/"
+              render={() => {
+                setError(false);
+                return <Dashboard />;
+              }}
+            ></Route>
             <Route exact path="/input">
               <Input />
             </Route>
@@ -101,9 +51,13 @@ function App() {
             <Route exact path="/goals">
               <Goals />
             </Route>
-            <Route path="/*">
-              <Error404 />
-            </Route>
+            <Route
+              path="/*"
+              render={() => {
+                setError(true);
+                return <Error404 />;
+              }}
+            ></Route>
           </Switch>
         </div>
       </div>

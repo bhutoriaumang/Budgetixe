@@ -14,7 +14,7 @@
   overflow: auto;
   float: right;
   height: 100%;
-  width: 82vw;
+  width: 100%;
   padding: 10px;
   background-color: #eef2f9;
   border-left: 1px solid black;
@@ -48,6 +48,17 @@
   font-size: min(2.5vh, 1.5vw);
 }
 
+.paper {
+  margin: 5vh 25%;
+  padding: 15px;
+  text-align: center;
+}
+
+.animation {
+  width: 35vw;
+  text-align: center;
+}
+
 .stock-page {
   width: inherit;
   height: inherit;
@@ -63,15 +74,15 @@
   padding-top: 3vh;
   box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  font-size: min(2vh,1.5vw);
+  font-size: min(2vh, 1.5vw);
 }
 
-.dropdown select{
+.dropdown select {
   margin-top: 5vh;
   margin-left: 5vw;
   width: 10%;
   height: 5vh;
-  font-size: min(2vh,1.5vw);
+  font-size: min(2vh, 1.5vw);
   background-color: transparent;
   border-style: none;
   border: none;
