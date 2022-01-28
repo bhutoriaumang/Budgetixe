@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
 import { AiFillCaretUp, AiFillCaretDown } from "react-icons/ai";
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
 import Chart from "./components/Chart";
 import Loading from "./Loading";
+import * as React from "react";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
 var stocksOwned = [
   { name: "MSFT", stocks: 500 },
@@ -48,10 +47,14 @@ const Stock = () => {
           let x = graphData;
           x[symbol] = list.reverse();
           setGraphData(x);
-          let t = graphData[selectedStock];
-          setPriceChange(t[t.length - 1]["value"] - t[t.length - 2]["value"]);
-          setPdata(t);
-          setIsDataPresent(true);
+          let t = x[selectedStock];
+          if(t){
+            setPriceChange(t[t.length - 1]["value"] - t[t.length - 2]["value"]);
+            setPdata(t);
+            setIsDataPresent(true);
+          }
+        }).catch((err)=>{
+          console.log(err.message);
         });
     };
     let select_element = document.getElementById("stock");
@@ -66,13 +69,15 @@ const Stock = () => {
   }, []);
 
   useEffect(() => {
-    if (Object.keys(graphData).length != 0) {
+    if (Object.keys(graphData).length !== 0) {
       let list = graphData[selectedStock];
-      setPriceChange(
-        list[list.length - 1]["value"] - list[list.length - 2]["value"]
-      );
-      setPdata(list);
-      setIsDataPresent(true);
+      if(list){
+        setPriceChange(
+          list[list.length - 1]["value"] - list[list.length - 2]["value"]
+        );
+        setPdata(list);
+        setIsDataPresent(true);
+      }
     }
   }, [selectedStock]);
 
@@ -84,6 +89,7 @@ const Stock = () => {
     );
   };
 
+  var fontSize = Math.min(0.02*window.innerHeight,0.012*window.innerWidth);
   return (
     <div className="total-stock-page">
       <div className="dropdown">
@@ -132,6 +138,38 @@ const Stock = () => {
           </div>
         )}
       </div>
+      {isDataPresent && 
+        <div className="bottom-table">
+        <Paper sx={{ width: "90%", overflow: "hidden", backgroundColor: "transparent", margin:"auto", borderRadius:"5px"}}>
+        <TableContainer sx={{ maxHeight: 440 }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{fontWeight:"bold", borderBottom:"1px solid black", fontSize:"80%"}}>Stock Name</TableCell>
+                <TableCell sx={{fontWeight:"bold", borderBottom:"1px solid black", fontSize:"80%"}}>Stocks Owned</TableCell>
+                <TableCell sx={{fontWeight:"bold", borderBottom:"1px solid black", fontSize:"80%"}}>Stock CP</TableCell>
+                <TableCell sx={{fontWeight:"bold", borderBottom:"1px solid black", fontSize:"80%"}}>Stock Current Price</TableCell>
+                <TableCell sx={{fontWeight:"bold", borderBottom:"1px solid black", fontSize:"80%"}}>Net Profit/Loss</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {stocksOwned.map((stock)=>{
+                return (
+                  <TableRow>
+                    <TableCell sx={{fontSize:"80%"}}>{stock["name"]}</TableCell>
+                    <TableCell sx={{fontSize:"80%"}}>{stock["stocks"]}</TableCell>
+                    <TableCell sx={{fontSize:"80%"}}>{pdata[pdata.length - 2]["value"].toFixed(2)}</TableCell>
+                    <TableCell sx={{fontSize:"80%"}}>{pdata[pdata.length - 1]["value"]} USD</TableCell>
+                    <TableCell sx={{color: (priceChange>0)?"green":"red", fontSize:"80%"}}>{((pdata[pdata.length - 1]["value"] - priceChange)*stock["stocks"]).toFixed(2)} USD</TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+    </div>
+      }
     </div>
   );
 };
