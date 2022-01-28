@@ -31,8 +31,14 @@ const useFetch = (url) => {
 
     return () => abortController.abort();
   }, [url]);
-
-  return { data, isPending, error };
+  let list = [];
+  for(var key in data){
+    list.push({
+      name: data[key]["time"],
+      value: data[key]["high"]
+    });
+  }
+  return { list, isPending, error };
 };
 
 export default useFetch;

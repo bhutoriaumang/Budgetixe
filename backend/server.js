@@ -14,7 +14,7 @@ app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
 
-const url = `https://min-api.cryptocompare.com/data/v2/histoday?fsym=BTC&tsym=USD&limit=10&api_key=${process.env.API_KEY}`;
+const url = `https://min-api.cryptocompare.com/data/v2/histoday?fsym=BTC&tsym=USD&limit=100&api_key=${process.env.API_KEY}`;
 app.get("/crypto", (req, res) => {
   axios
     .get(url)
