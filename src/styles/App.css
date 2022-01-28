@@ -1,5 +1,5 @@
 .App {
-  height: 100vmax;
+  height: 100vh;
   display: flex;
 }
 
@@ -75,6 +75,12 @@
   box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   font-size: min(2vh, 1.5vw);
+}
+
+.bottom-table{
+  margin-top: 5vh;
+background-color: transparent;
+  height: max-content;
 }
 
 .dropdown select {
