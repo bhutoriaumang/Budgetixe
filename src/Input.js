@@ -10,7 +10,7 @@ import Modal from "./components/Modal.js";
 
 const Input = () => {
   const [inputType, setInputType] = useState("Expense");
-  const [transactionType, setTransactionType] = useState("stocks");
+  const [transactionType, setTransactionType] = useState("Stock");
   const [amount, setAmount] = useState(0.0);
   const [date, setDate] = useState(new Date());
   const [payee, setPayee] = useState("select");
@@ -19,6 +19,11 @@ const Input = () => {
   const [addPayee, setAddPayee] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [payeeList, setPayeeList] = useState(["ABC", "XYZ"]);
+
+  const inputStyle = {
+    width: "220px",
+    marginLeft: "10px",
+  };
 
   const handleInputTypeChange = (e) => setInputType(e.target.value);
 
@@ -80,88 +85,129 @@ const Input = () => {
           </FormControl>
 
           <FormControl className="form-control">
-            <label>Where did you made this transaction?</label>
-            <Select
-              size="small"
-              value={transactionType}
-              onChange={(e) => setTransactionType(e.target.value)}
-            >
-              <MenuItem value="stocks">Stocks</MenuItem>
-              <MenuItem value="crypto">Crypto</MenuItem>
-              <MenuItem value="subscriptions">Monthly Subscriptions</MenuItem>
-              <MenuItem value="transactions">Transactions</MenuItem>
-            </Select>
+            <label>
+              Where did you made this transaction?
+              <Select
+                size="small"
+                style={inputStyle}
+                value={transactionType}
+                onChange={(e) => setTransactionType(e.target.value)}
+              >
+                <MenuItem value="Stock">Stocks</MenuItem>
+                <MenuItem value="Cryptocurrency">Cryptocurrency</MenuItem>
+                <MenuItem value="Subscription">Monthly Subscriptions</MenuItem>
+                <MenuItem value="Transactions">Transactions</MenuItem>
+              </Select>
+            </label>
           </FormControl>
+
+          {transactionType !== "Transactions" && (
+            <FormControl className="form-control">
+              <label>
+                {transactionType} Name:
+                <Select
+                  size="small"
+                  style={inputStyle}
+                  // value={transactionType}
+                  // onChange={(e) => setTransactionType(e.target.value)}
+                ></Select>
+              </label>
+            </FormControl>
+          )}
 
           <FormControl variant="filled" className="form-control">
-            <label>Transaction Amount: </label>
-            <TextField
-              size="small"
-              type="number"
-              required
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-            />
-          </FormControl>
+            <label>
+              {transactionType === "Transactions"
+                ? "Transaction Amount:"
+                : `${transactionType} Price:`}
 
-          <FormControl className="form-control">
-            <label>Date of Transaction: </label>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <DatePicker
-                autoOk
+              <TextField
                 size="small"
-                variant="inline"
-                inputVariant="outlined"
-                format="dd/MM/yyyy"
-                value={date}
-                onChange={setDate}
+                type="number"
+                style={inputStyle}
+                required
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
               />
-            </MuiPickersUtilsProvider>
+            </label>
           </FormControl>
 
           <FormControl className="form-control">
-            <label>{inputType === "Expense" ? "Payee" : "Payer"}: </label>
-            <Select size="small" value={payee} onChange={handlePayeeChange}>
-              <MenuItem value="select" disabled>
-                <em>--Select a Payee--</em>
-              </MenuItem>
-              {payeeList.map((item) => (
-                <MenuItem value={item} key={item}>
-                  {item}
-                </MenuItem>
-              ))}
-              <option className="disabled" disabled>
-                &nbsp;
-              </option>
-              <MenuItem value="">+Add payee/payer</MenuItem>
-            </Select>
+            <label>
+              Date of{" "}
+              {transactionType === "Transactions"
+                ? "Transaction:"
+                : "Purchase:"}
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <DatePicker
+                  autoOk
+                  size="small"
+                  variant="inline"
+                  inputVariant="outlined"
+                  format="dd/MM/yyyy"
+                  style={inputStyle}
+                  value={date}
+                  onChange={setDate}
+                />
+              </MuiPickersUtilsProvider>
+            </label>
           </FormControl>
+
+          {transactionType === "Transactions" && (
+            <FormControl className="form-control">
+              <label>
+                {inputType === "Expense" ? "Payee" : "Payer"}:
+                <Select
+                  size="small"
+                  value={payee}
+                  style={inputStyle}
+                  onChange={handlePayeeChange}
+                >
+                  <MenuItem value="select" disabled>
+                    <em>--Select a Payee--</em>
+                  </MenuItem>
+                  {payeeList.map((item) => (
+                    <MenuItem value={item} key={item}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                  <MenuItem value="">+Add payee/payer</MenuItem>
+                </Select>
+              </label>
+            </FormControl>
+          )}
 
           <FormControl size="small" className="form-control">
-            <label>Mode of payment: </label>
-            <Select
-              value={paymentMethod}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            >
-              <MenuItem value="cash">Cash</MenuItem>
-              <MenuItem value="card">Debit/Credit Card</MenuItem>
-              <MenuItem value="net-banking">Net Banking</MenuItem>
-              <MenuItem value="neft/rtgs">NEFT/RTGS</MenuItem>
-              <MenuItem value="upi">UPI</MenuItem>
-              <MenuItem value="others">Others</MenuItem>
-            </Select>
+            <label>
+              Mode of payment:
+              <Select
+                value={paymentMethod}
+                style={inputStyle}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              >
+                <MenuItem value="cash">Cash</MenuItem>
+                <MenuItem value="card">Debit/Credit Card</MenuItem>
+                <MenuItem value="net-banking">Net Banking</MenuItem>
+                <MenuItem value="neft/rtgs">NEFT/RTGS</MenuItem>
+                <MenuItem value="upi">UPI</MenuItem>
+                <MenuItem value="others">Others</MenuItem>
+              </Select>
+            </label>
           </FormControl>
 
           <FormControl className="form-control">
-            <label>Notes:</label>
-            <TextField
-              size="small"
-              value={note}
-              placeholder="(Optional)"
-              multiline
-              minRows={2}
-              onChange={(e) => setNote(e.target.value)}
-            />
+            <label>
+              Notes:
+              <TextField
+                size="small"
+                value={note}
+                style={inputStyle}
+                placeholder="(Optional)"
+                multiline
+                minRows={2}
+                onChange={(e) => setNote(e.target.value)}
+              />
+            </label>
           </FormControl>
           <div className="button-container">
             <Button variant="contained">Save</Button>
