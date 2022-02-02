@@ -2,49 +2,50 @@ import express from "express";
 import axios from "axios";
 const router = express.Router();
 
-import { CRYPTO_SYMBOLS_URL, CRYPTO_DATA_URL } from "../constants.js";
+import { CRYPTO_DATA_URL } from "../constants.js";
+
+var cryptoOwned = [
+  { name: "BTC", crypto: 5 },
+  { name: "DOGE", crypto: 1 },
+];
 
 router.get("/", (req, res) => {
+  var getList = [];
+  cryptoOwned.forEach((item) =>
+    getList.push(axios.get(`${CRYPTO_DATA_URL}&symbol=${item.name}`))
+  );
   axios
-    .get(CRYPTO_DATA_URL)
-    .then((result) => {
-      const data = result.data.Data.Data;
-      let cryptoArray = [];
-      for (let i = 0; i < data.length; i++) {
-        const item = data[i];
-        var crypto = {
-          time: new Date(Math.round(item.time / 3600 / 24) * 86400 * 1000)
-            .toString()
-            .substring(0, 24),
-          high: item.high,
-          low: item.low,
-        };
-        cryptoArray.push(crypto);
-      }
-      res.json(cryptoArray);
-    })
+    .all(getList)
+    .then(
+      axios.spread((...result) => {
+        let list = [];
+        for (var i in result) {
+          const data = result[i].data["Time Series (Digital Currency Daily)"];
+          let sublist = [];
+          for (var key in data) {
+            sublist.push({
+              name: key,
+              value: parseFloat(data[key]["4a. close (USD)"]),
+            });
+          }
+          const metaData = result[i].data["Meta Data"];
+          var name = metaData["2. Digital Currency Code"];
+          let crypto = 0;
+          for (var i in cryptoOwned) {
+            var item = cryptoOwned[i];
+            if (item["name"] === name) crypto = item["crypto"];
+          }
+          list.push({
+            name,
+            crypto,
+            data: sublist,
+          });
+        }
+        res.json(list);
+      })
+    )
     .catch((err) => {
-      console.log(err.message);
-    });
-});
-
-router.get("/symbols", (req, res) => {
-  axios
-    .get(CRYPTO_SYMBOLS_URL, {
-      headers: { "X-CMC_PRO_API_KEY": process.env.CRYPTO_API_KEY },
-      params: { limit: 100 },
-    })
-    .then((result) => {
-      const data = result.data.data;
-      let symbols = [];
-      for (let i = 0; i < data.length; i++) {
-        const item = data[i];
-        symbols.push({ symbol: item.symbol, name: item.name });
-      }
-      res.json(symbols);
-    })
-    .catch((err) => {
-      console.log(err.message);
+      console.log(err);
     });
 });
 

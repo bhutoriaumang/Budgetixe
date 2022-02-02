@@ -82,17 +82,16 @@
   height: max-content;
 }
 
-.dropdown {
+.bottom-table .table-cell {
+  font-weight: bold;
+  border-bottom: 1px solid black;
+  font-size: 80%;
+}
+
+.total-stock-page .dropdown {
   margin-top: 5vh;
   margin-left: 5vw;
-  width: 10%;
-  height: 5vh;
-  font-size: min(2vh, 1.5vw);
-  background-color: transparent;
-  border-style: none;
-  border: none;
-  outline: none;
-  border-bottom-style: groove;
+  min-width: 5vw;
 }
 
 .side-cards {

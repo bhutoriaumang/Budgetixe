@@ -11,7 +11,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import useFetch from "./hooks/useFetch";
-import { Select, MenuItem } from "@mui/material";
+import { Select, MenuItem, FormControl } from "@mui/material";
 
 const Stock = () => {
   const [pdata, setPdata] = useState([]);
@@ -64,9 +64,9 @@ const Stock = () => {
     let value = 0;
     for (var i in stocksOwned) {
       var item = stocksOwned[i];
-      if (item["name"] === name){
-         value = item["stocks"]
-      };
+      if (item["name"] === name) {
+        value = item["stocks"];
+      }
     }
     setSelectedStock(name);
     setSelectedStockValue(value);
@@ -75,14 +75,13 @@ const Stock = () => {
   return (
     <div className="total-stock-page">
       {!isPending && (
-        <div className="dropdown">
+        <FormControl className="dropdown" variant="standard">
           <Select
             size="small"
             name="Stock"
             id="stock"
             value={selectedStock}
             onChange={handleStockChanged}
-            sx={{textDecoration:"none", border:"none", borderStyle:"none"}}
           >
             {stocksOwned &&
               stocksOwned.map((item) => (
@@ -91,7 +90,7 @@ const Stock = () => {
                 </MenuItem>
               ))}
           </Select>
-        </div>
+        </FormControl>
       )}
       <div className="stock-page">
         {!isDataPresent && <Loading />}
@@ -149,77 +148,58 @@ const Stock = () => {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell
-                      sx={{
-                        fontWeight: "bold",
-                        borderBottom: "1px solid black",
-                        fontSize: "80%",
-                      }}
-                    >
-                      Stock Name
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontWeight: "bold",
-                        borderBottom: "1px solid black",
-                        fontSize: "80%",
-                      }}
-                    >
-                      Stocks Owned
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontWeight: "bold",
-                        borderBottom: "1px solid black",
-                        fontSize: "80%",
-                      }}
-                    >
-                      Stock CP
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontWeight: "bold",
-                        borderBottom: "1px solid black",
-                        fontSize: "80%",
-                      }}
-                    >
+                    <TableCell className="table-cell">Stock Name</TableCell>
+                    <TableCell className="table-cell">Stocks Owned</TableCell>
+                    <TableCell className="table-cell">Stock CP</TableCell>
+                    <TableCell className="table-cell">
                       Stock Current Price
                     </TableCell>
-                    <TableCell
-                      sx={{
-                        fontWeight: "bold",
-                        borderBottom: "1px solid black",
-                        fontSize: "80%",
-                      }}
-                    >
+                    <TableCell className="table-cell">
                       Net Profit/Loss
                     </TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody>
+                <TableBody sx={{ fontSize: "80%" }}>
                   {stocksOwned.map((stock) => {
                     return (
                       <TableRow key={stock.name}>
-                        <TableCell sx={{ fontSize: "80%" }}>
-                          {stock["name"]}
+                        <TableCell>{stock["name"]}</TableCell>
+                        <TableCell>{stock["stocks"]}</TableCell>
+                        <TableCell>
+                          {graphData[stock.name][
+                            graphData[stock.name].length - 2
+                          ]["value"].toFixed(2)}{" "}
+                          USD
                         </TableCell>
-                        <TableCell sx={{ fontSize: "80%" }}>
-                          {stock["stocks"]}
-                        </TableCell>
-                        <TableCell sx={{ fontSize: "80%" }}>
-                          {graphData[stock.name][graphData[stock.name].length - 2]["value"].toFixed(2)} USD
-                        </TableCell>
-                        <TableCell sx={{ fontSize: "80%" }}>
-                          {graphData[stock.name][graphData[stock.name].length - 1]["value"]} USD
+                        <TableCell>
+                          {
+                            graphData[stock.name][
+                              graphData[stock.name].length - 1
+                            ]["value"]
+                          }{" "}
+                          USD
                         </TableCell>
                         <TableCell
                           sx={{
-                            color: (graphData[stock.name][graphData[stock.name].length - 1]["value"] - graphData[stock.name][graphData[stock.name].length - 2]["value"]) > 0 ? "green" : "red",
-                            fontSize: "80%",
+                            color:
+                              graphData[stock.name][
+                                graphData[stock.name].length - 1
+                              ]["value"] -
+                                graphData[stock.name][
+                                  graphData[stock.name].length - 2
+                                ]["value"] >
+                              0
+                                ? "green"
+                                : "red",
                           }}
                         >
                           {(
-                            (graphData[stock.name][graphData[stock.name].length - 1]["value"] - graphData[stock.name][graphData[stock.name].length - 2]["value"]) *
+                            (graphData[stock.name][
+                              graphData[stock.name].length - 1
+                            ]["value"] -
+                              graphData[stock.name][
+                                graphData[stock.name].length - 2
+                              ]["value"]) *
                             stock["stocks"]
                           ).toFixed(2)}{" "}
                           USD

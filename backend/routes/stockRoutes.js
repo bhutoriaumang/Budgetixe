@@ -2,7 +2,7 @@ import express from "express";
 import axios from "axios";
 const router = express.Router();
 
-import { STOCKS_URL } from "../constants.js";
+import { STOCKS_DATA_URL } from "../constants.js";
 
 var stocksOwned = [
   { name: "MSFT", stocks: 500 },
@@ -12,7 +12,7 @@ var stocksOwned = [
 router.get("/", (req, res) => {
   var getList = [];
   stocksOwned.forEach((item) =>
-    getList.push(axios.get(`${STOCKS_URL}&symbol=${item.name}`))
+    getList.push(axios.get(`${STOCKS_DATA_URL}&symbol=${item.name}`))
   );
   axios
     .all(getList)

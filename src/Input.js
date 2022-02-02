@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -13,13 +13,16 @@ import {
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import Modal from "./components/Modal.js";
-import useFetch from "./hooks/useFetch";
 import Loading from "./components/Loading.js";
+
+import cryptoList from "./assets/crypto-list.csv";
+import Papa from "papaparse";
 
 const Input = () => {
   const [inputType, setInputType] = useState("Expense");
   const [transactionType, setTransactionType] = useState("Stock");
-  const [stockName, setStockName] = useState("select");
+  const [cryptoRecords, setCryptoRecords] = useState(null);
+  const [recordName, setRecordName] = useState("select");
   const [amount, setAmount] = useState(0.0);
   const [date, setDate] = useState(new Date());
   const [payee, setPayee] = useState("select");
@@ -29,16 +32,20 @@ const Input = () => {
   const [showModal, setShowModal] = useState(false);
   const [payeeList, setPayeeList] = useState(["ABC", "XYZ"]);
 
+  useEffect(() => {
+    Papa.parse(cryptoList, {
+      download: true,
+      delimiter: ",",
+      complete: function (input) {
+        setCryptoRecords(input.data);
+      },
+    });
+  }, []);
+
   const inputStyle = {
     width: "220px",
     marginLeft: "10px",
   };
-
-  const {
-    data: list,
-    isPending,
-    error,
-  } = useFetch("http://localhost:8000/crypto/symbols");
 
   const handleInputTypeChange = (e) => setInputType(e.target.value);
 
@@ -62,9 +69,9 @@ const Input = () => {
 
   return (
     <div className="container">
-      {isPending && <Loading />}
-      {error && <div>{error}</div>}
-      {list && (
+      {!cryptoRecords ? (
+        <Loading />
+      ) : (
         <div className="input">
           <h2>Add New {inputType}</h2>
           <Modal showModal={showModal} handleClose={handleClose}>
@@ -132,15 +139,15 @@ const Input = () => {
                   <Select
                     size="small"
                     style={inputStyle}
-                    value={stockName}
-                    onChange={(e) => setStockName(e.target.value)}
+                    value={recordName}
+                    onChange={(e) => setRecordName(e.target.value)}
                   >
                     <MenuItem value="select" disabled>
                       <em>--Select a {transactionType}--</em>
                     </MenuItem>
-                    {list.map((item) => (
-                      <MenuItem value={item.symbol} key={item.symbol}>
-                        {`${item.name} (${item.symbol})`}
+                    {cryptoRecords.map((item) => (
+                      <MenuItem value={item[0]} key={item[0]}>
+                        {`${item[1]} (${item[0]})`}
                       </MenuItem>
                     ))}
                   </Select>
@@ -162,7 +169,9 @@ const Input = () => {
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   InputProps={{
-                    startAdornment: <InputAdornment>₹</InputAdornment>,
+                    startAdornment: (
+                      <InputAdornment position="start">$</InputAdornment>
+                    ),
                   }}
                 />
               </label>
