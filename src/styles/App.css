@@ -82,7 +82,7 @@
   height: max-content;
 }
 
-.dropdown select {
+.dropdown {
   margin-top: 5vh;
   margin-left: 5vw;
   width: 10%;
