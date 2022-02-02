@@ -42,6 +42,7 @@ const Stock = () => {
         }
       }
       setSelectedStock(stocksOwned[0].name);
+      setSelectedStockValue(stocksOwned[0].stocks);
     }
   }, [stocksOwned]);
 
@@ -63,13 +64,14 @@ const Stock = () => {
     let value = 0;
     for (var i in stocksOwned) {
       var item = stocksOwned[i];
-      if (item["name"] === name) value = item["stocks"];
+      if (item["name"] === name){
+         value = item["stocks"]
+      };
     }
     setSelectedStock(name);
     setSelectedStockValue(value);
   };
 
-  var fontSize = Math.min(0.02 * window.innerHeight, 0.012 * window.innerWidth);
   return (
     <div className="total-stock-page">
       {!isPending && (
@@ -80,6 +82,7 @@ const Stock = () => {
             id="stock"
             value={selectedStock}
             onChange={handleStockChanged}
+            sx={{textDecoration:"none", border:"none", borderStyle:"none"}}
           >
             {stocksOwned &&
               stocksOwned.map((item) => (
@@ -204,19 +207,19 @@ const Stock = () => {
                           {stock["stocks"]}
                         </TableCell>
                         <TableCell sx={{ fontSize: "80%" }}>
-                          {pdata[pdata.length - 2]["value"].toFixed(2)}
+                          {graphData[stock.name][graphData[stock.name].length - 2]["value"].toFixed(2)} USD
                         </TableCell>
                         <TableCell sx={{ fontSize: "80%" }}>
-                          {pdata[pdata.length - 1]["value"]} USD
+                          {graphData[stock.name][graphData[stock.name].length - 1]["value"]} USD
                         </TableCell>
                         <TableCell
                           sx={{
-                            color: priceChange > 0 ? "green" : "red",
+                            color: (graphData[stock.name][graphData[stock.name].length - 1]["value"] - graphData[stock.name][graphData[stock.name].length - 2]["value"]) > 0 ? "green" : "red",
                             fontSize: "80%",
                           }}
                         >
                           {(
-                            (pdata[pdata.length - 1]["value"] - priceChange) *
+                            (graphData[stock.name][graphData[stock.name].length - 1]["value"] - graphData[stock.name][graphData[stock.name].length - 2]["value"]) *
                             stock["stocks"]
                           ).toFixed(2)}{" "}
                           USD
