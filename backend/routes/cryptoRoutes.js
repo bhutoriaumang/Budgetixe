@@ -4,26 +4,6 @@ const router = express.Router();
 
 import { CRYPTO_SYMBOLS_URL, CRYPTO_DATA_URL } from "../constants.js";
 
-router.get("/symbols", (req, res) => {
-  axios
-    .get(CRYPTO_SYMBOLS_URL, {
-      headers: { "X-CMC_PRO_API_KEY": process.env.CRYPTO_API_KEY },
-      params: { limit: 100 },
-    })
-    .then((result) => {
-      const data = result.data.data;
-      let symbols = [];
-      for (let i = 0; i < data.length; i++) {
-        const item = data[i];
-        symbols.push({ symbol: item.symbol, name: item.name });
-      }
-      res.json(symbols);
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
-});
-
 router.get("/", (req, res) => {
   axios
     .get(CRYPTO_DATA_URL)
@@ -42,6 +22,26 @@ router.get("/", (req, res) => {
         cryptoArray.push(crypto);
       }
       res.json(cryptoArray);
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+});
+
+router.get("/symbols", (req, res) => {
+  axios
+    .get(CRYPTO_SYMBOLS_URL, {
+      headers: { "X-CMC_PRO_API_KEY": process.env.CRYPTO_API_KEY },
+      params: { limit: 100 },
+    })
+    .then((result) => {
+      const data = result.data.data;
+      let symbols = [];
+      for (let i = 0; i < data.length; i++) {
+        const item = data[i];
+        symbols.push({ symbol: item.symbol, name: item.name });
+      }
+      res.json(symbols);
     })
     .catch((err) => {
       console.log(err.message);

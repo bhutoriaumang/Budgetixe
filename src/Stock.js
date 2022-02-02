@@ -10,64 +10,40 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-
-var stocksOwned = [
-  { name: "MSFT", stocks: 500 },
-  { name: "IBM", stocks: 100 },
-];
+import useFetch from "./hooks/useFetch";
+import { Select, MenuItem } from "@mui/material";
 
 const Stock = () => {
   const [pdata, setPdata] = useState([]);
   const [isDataPresent, setIsDataPresent] = useState(false);
   const [priceChange, setPriceChange] = useState(0.0);
-  const [selectedStock, setSelectedStock] = useState(stocksOwned[0]["name"]);
-  const [selectedStockValue, setSelectedStockValue] = useState(
-    stocksOwned[0]["stocks"]
-  );
+  const [selectedStock, setSelectedStock] = useState("");
+  const [selectedStockValue, setSelectedStockValue] = useState(0);
   const [graphData, setGraphData] = useState({});
 
-  useEffect(() => {
-    const fetchStock = (symbol) => {
-      const API_KEY = "5ESBFJPMQ7O56KWH";
-      let StockSymbol = symbol;
-      let API_Call = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${StockSymbol}&&apikey=${API_KEY}`;
+  const { data: stocksOwned, isPending } = useFetch(
+    `http://localhost:8000/stocks`
+  );
 
-      fetch(API_Call)
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (data) {
-          let list = [];
-          for (var key in data["Time Series (Daily)"]) {
-            list.push({
-              name: key,
-              value: parseFloat(data["Time Series (Daily)"][key]["4. close"]),
-            });
-          }
-          let x = graphData;
-          x[symbol] = list.reverse();
-          setGraphData(x);
-          let t = x[selectedStock];
-          if (t) {
-            setPriceChange(t[t.length - 1]["value"] - t[t.length - 2]["value"]);
-            setPdata(t);
-            setIsDataPresent(true);
-          }
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    };
-    let select_element = document.getElementById("stock");
-    for (var i = 0; i < stocksOwned.length; i++) {
-      let newOption = new Option(
-        stocksOwned[i]["name"],
-        stocksOwned[i]["stocks"]
-      );
-      fetchStock(stocksOwned[i]["name"]);
-      select_element.appendChild(newOption);
+  useEffect(() => {
+    if (stocksOwned) {
+      for (var i in stocksOwned) {
+        const item = stocksOwned[i];
+        const symbol = item.name;
+        const data = item.data;
+        let x = graphData;
+        x[symbol] = data.reverse();
+        setGraphData(x);
+        let t = x[selectedStock];
+        if (t) {
+          setPriceChange(t[t.length - 1]["value"] - t[t.length - 2]["value"]);
+          setPdata(t);
+          setIsDataPresent(true);
+        }
+      }
+      setSelectedStock(stocksOwned[0].name);
     }
-  }, []);
+  }, [stocksOwned]);
 
   useEffect(() => {
     if (Object.keys(graphData).length !== 0) {
@@ -82,20 +58,38 @@ const Stock = () => {
     }
   }, [selectedStock]);
 
-  const stockChanged = () => {
-    let select_element = document.getElementById("stock");
-    setSelectedStock(select_element.options[select_element.selectedIndex].text);
-    setSelectedStockValue(
-      select_element.options[select_element.selectedIndex].value
-    );
+  const handleStockChanged = (e) => {
+    var name = e.target.value;
+    let value = 0;
+    for (var i in stocksOwned) {
+      var item = stocksOwned[i];
+      if (item["name"] === name) value = item["stocks"];
+    }
+    setSelectedStock(name);
+    setSelectedStockValue(value);
   };
 
   var fontSize = Math.min(0.02 * window.innerHeight, 0.012 * window.innerWidth);
   return (
     <div className="total-stock-page">
-      <div className="dropdown">
-        <select name="Stock" id="stock" onChange={stockChanged}></select>
-      </div>
+      {!isPending && (
+        <div className="dropdown">
+          <Select
+            size="small"
+            name="Stock"
+            id="stock"
+            value={selectedStock}
+            onChange={handleStockChanged}
+          >
+            {stocksOwned &&
+              stocksOwned.map((item) => (
+                <MenuItem value={item.name} key={item.name}>
+                  {item.name}
+                </MenuItem>
+              ))}
+          </Select>
+        </div>
+      )}
       <div className="stock-page">
         {!isDataPresent && <Loading />}
         {isDataPresent && (
@@ -202,7 +196,7 @@ const Stock = () => {
                 <TableBody>
                   {stocksOwned.map((stock) => {
                     return (
-                      <TableRow>
+                      <TableRow key={stock.name}>
                         <TableCell sx={{ fontSize: "80%" }}>
                           {stock["name"]}
                         </TableCell>
