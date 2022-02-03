@@ -5,8 +5,8 @@ const router = express.Router();
 import { CRYPTO_DATA_URL } from "../constants.js";
 
 var cryptoOwned = [
-  { name: "BTC", crypto: 5 },
-  { name: "DOGE", crypto: 1 },
+  { name: "BTC", crypto: 500 },
+  { name: "DOGE", crypto: 100 },
 ];
 
 router.get("/", (req, res) => {
