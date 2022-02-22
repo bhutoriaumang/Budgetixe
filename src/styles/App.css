@@ -8,6 +8,7 @@
   height: 100%;
   overflow: auto;
   width: calc(18vw - 1px);
+  background-color: #e1e6f2;
 }
 
 .main-page {
@@ -15,8 +16,9 @@
   float: right;
   width: 100%;
   padding: 10px;
-  background-color: #eef2f9;
   border-left: 1px solid black;
+  height: 100%;
+  background-color: #F4F5F8;
 }
 
 .nav-bar a {
@@ -58,20 +60,51 @@
   text-align: center;
 }
 
-.stock-page {
-  width: inherit;
-  height: inherit;
+.top-of-page{
   display: flex;
+  margin: 5vh;
+  align-content: space-between;
 }
 
-.stock-graph {
-  height: 40vh;
-  width: 60%;
+.top-options{
+  float: right;
+  text-align: right;
+  height: 10vh;
+  width: 50%;
+  margin-left: auto;
+}
+
+.total-stock-page, .total-crypto-page{
+  height: 100%;
+}
+
+.data-screen{
+  width: inherit;
+  height: 70vh;
+}
+
+.side-cards{
+  float: right;
+  width: 25%;
+  height: 50vh;
   margin-top: 5vh;
   margin-left: 5vw;
+}
+
+.stock-page, .crypto-page {
+  display: flex;
+  height: 50vh;
+}
+
+.stock-graph , .crypto-graph {
+  float: left;
+  height: 50vh;
+  width: 60%;
+  /* margin-top: 5vh; */
+  /* margin-left: 5vw; */
   padding-right: 2vw;
   padding-top: 3vh;
-  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1); */
   border-radius: 5px;
   font-size: min(2vh, 1.5vw);
 }
@@ -88,21 +121,13 @@
   font-size: 80%;
 }
 
-.total-stock-page .dropdown {
-  margin-top: 5vh;
-  margin-left: 5vw;
-  min-width: 5vw;
+.total-stock-page .dropdown,.total-crypto-page .dropdown {
+  float: left;
+  /* background-color: green; */
+  width: 15%;
 }
 
-.side-cards {
-  width: 20%;
-  height: 40vh;
-  margin-top: 5vh;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.stock-name {
+.stock-name, .crypto-name {
   box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
   height: 5vh;
   display: flex;
@@ -113,9 +138,11 @@
   font-size: 2.5vh;
   font-weight: 500;
   margin-top: 3vh;
+  background-color: white;
+  border: 0.5px solid black;
 }
 
-.stock-currentval {
+.stock-currentval, .crypto-currentval {
   margin-top: 3vh;
   height: 5vh;
   box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
@@ -123,9 +150,11 @@
   align-items: center;
   width: 100%;
   border-radius: 20px;
+  background-color: white;
+  border: 0.5px solid black;
 }
 
-.stock-currentval-label {
+.stock-currentval-label, .crypto-currentval-label {
   width: 55%;
   display: flex;
   align-items: center;
@@ -144,7 +173,7 @@
   color: red;
 }
 
-.stock-currentval-value,
+.stock-currentval-value, .crypto-currentval-value,
 .green,
 .red {
   overflow: auto;
@@ -163,7 +192,6 @@
 
 .input {
   display: inline-block;
-  background-color: white;
   padding: 0 2vw;
   box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
