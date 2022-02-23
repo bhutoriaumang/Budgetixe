@@ -2,7 +2,7 @@ import express from "express";
 import axios from "axios";
 const router = express.Router();
 
-import { CRYPTO_DATA_URL } from "../constants.js";
+import { CRYPTO_DATA_URL, CRYPTO_SYMBOLS_URL } from "../constants.js";
 
 var cryptoOwned = [
   { name: "BTC", crypto: 500 },
@@ -38,6 +38,7 @@ router.get("/", (req, res) => {
           list.push({
             name,
             crypto,
+            icon: `${CRYPTO_SYMBOLS_URL}${name.toLowerCase()}@2x.png`,
             data: sublist,
           });
         }
