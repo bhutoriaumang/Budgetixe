@@ -11,7 +11,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import useFetch from "./hooks/useFetch";
-import { Select, MenuItem, FormControl } from "@mui/material";
+import { Select, MenuItem, FormControl, Button, IconButton } from "@mui/material";
+import { FaPlus, FaRegBell } from 'react-icons/fa';
 
 const Crypto = () => {
   const { data: cryptoOwned, isPending, error } = useFetch("http://localhost:8000/crypto/");
@@ -70,14 +71,16 @@ const Crypto = () => {
   };
 
   return (
-    <div className="total-stock-page">
+    <div className="total-crypto-page">
       {!isPending && (
-        <FormControl className="dropdown" variant="standard">
+        <div className="top-of-page">
+          <FormControl className="dropdown" variant="standard">
           <Select
             size="small"
+            style={{fontSize:"3vh"}}
             name="Crypto"
-            id="stock"
-            value={selectedCrypto}
+            id="crypto"
+            value={ selectedCrypto }
             onChange={handleCryptoChanged}
           >
             {cryptoOwned &&
@@ -88,47 +91,58 @@ const Crypto = () => {
               ))}
           </Select>
         </FormControl>
+        <div className="top-options">
+        <IconButton style={{color:"black", marginRight:"1vw", border:"1px solid black" , backgroundColor:"white"}}><FaRegBell></FaRegBell></IconButton>
+        <Button variant="outlined" 
+        style={{color:"black", borderColor:"black", fontSize:"2vh", backgroundColor:"white"}} 
+        startIcon={ <FaPlus></FaPlus> }
+        onClick = {()=>{
+          alert("Added to watchlist!!!!");
+        }}
+        >Add to WatchList</Button>
+        </div>
+      </div>
       )}
-      <div className="stock-page">
+      <div className="crypto-page">
         {!isDataPresent && <Loading />}
         {isDataPresent && (
-          <div className="stock-graph">
-            {isDataPresent && <Chart pdata={pdata} priceChange={priceChange} />}
+          <div className="crypto-graph">
+          {isDataPresent && <Chart pdata={pdata} priceChange={priceChange} />}
           </div>
         )}
-        {isDataPresent && (
+        {isDataPresent && 
           <div className="side-cards">
-            <div className="stock-name">{selectedCrypto}</div>
-            <div className="stock-currentval">
-              <div className="stock-currentval-label">Current Value</div>
-              <div className="stock-currentval-value">
-                {pdata[pdata.length - 1]["value"]} USD
-              </div>
-            </div>
-            <div className="stock-currentval">
-              <div className="stock-currentval-label">Net Inc/Dec</div>
-              <div className={priceChange <= 0 ? "red " : "green "}>
-                {priceChange > 0 ? <AiFillCaretUp /> : <AiFillCaretDown />}
-                {(
-                  (priceChange * 100) /
-                  pdata[pdata.length - 2]["value"]
-                ).toFixed(2)}
-                %
-              </div>
-            </div>
-            <div className="stock-currentval">
-              <div className="stock-currentval-label">Cryptos Owned</div>
-              <div className="stock-currentval-value">{selectedCryptoValue}</div>
-            </div>
-            <div className="stock-currentval">
-              <div className="stock-currentval-label">Net Profit/Loss</div>
-              <div className={priceChange <= 0 ? "red " : "green "}>
-                {priceChange > 0 ? <AiFillCaretUp /> : <AiFillCaretDown />}
-                {(selectedCryptoValue * priceChange).toFixed(2)} USD
-              </div>
+          <div className="crypto-name">{selectedCrypto}</div>
+          <div className="crypto-currentval">
+            <div className="crypto-currentval-label">Current Value</div>
+            <div className="crypto-currentval-value">
+              {pdata[pdata.length - 1]["value"]} USD
             </div>
           </div>
-        )}
+          <div className="crypto-currentval">
+            <div className="crypto-currentval-label">Net Inc/Dec</div>
+            <div className={priceChange <= 0 ? "red " : "green "}>
+              {priceChange > 0 ? <AiFillCaretUp /> : <AiFillCaretDown />}
+              {(
+                (priceChange * 100) /
+                pdata[pdata.length - 2]["value"]
+              ).toFixed(2)}
+              %
+            </div>
+          </div>
+          <div className="crypto-currentval">
+            <div className="crypto-currentval-label">Cryptos Owned</div>
+            <div className="crypto-currentval-value">{selectedCryptoValue}</div>
+          </div>
+          <div className="crypto-currentval">
+            <div className="crypto-currentval-label">Net Profit/Loss</div>
+            <div className={priceChange <= 0 ? "red " : "green "}>
+              {priceChange > 0 ? <AiFillCaretUp /> : <AiFillCaretDown />}
+              {(selectedCryptoValue * priceChange).toFixed(2)} USD
+            </div>
+          </div>
+        </div>
+        }
       </div>
       {isDataPresent && (
         <div className="bottom-table">
@@ -136,7 +150,7 @@ const Crypto = () => {
             sx={{
               width: "90%",
               overflow: "hidden",
-              backgroundColor: "transparent",
+              backgroundColor: "white",
               margin: "auto",
               borderRadius: "5px",
             }}
@@ -156,7 +170,7 @@ const Crypto = () => {
                     </TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody sx={{ fontSize: "80%" }}>
+                <TableBody sx={{ fontSize: "80%", textAlign: "center" }}>
                   {cryptoOwned.map((crypto) => {
                     return (
                       <TableRow key={crypto.name}>

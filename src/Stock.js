@@ -11,7 +11,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import useFetch from "./hooks/useFetch";
-import { Select, MenuItem, FormControl } from "@mui/material";
+import { Select, MenuItem, FormControl, Button, IconButton } from "@mui/material";
+import { FaPlus, FaRegBell } from 'react-icons/fa';
 
 const Stock = () => {
   const [pdata, setPdata] = useState([]);
@@ -75,12 +76,14 @@ const Stock = () => {
   return (
     <div className="total-stock-page">
       {!isPending && (
-        <FormControl className="dropdown" variant="standard">
+        <div className="top-of-page">
+          <FormControl className="dropdown" variant="standard">
           <Select
             size="small"
+            style={{fontSize:"3vh"}}
             name="Stock"
             id="stock"
-            value={selectedStock}
+            value={ selectedStock }
             onChange={handleStockChanged}
           >
             {stocksOwned &&
@@ -91,47 +94,58 @@ const Stock = () => {
               ))}
           </Select>
         </FormControl>
+        <div className="top-options">
+        <IconButton style={{color:"black", marginRight:"1vw", border:"1px solid black" , backgroundColor:"white"}}><FaRegBell></FaRegBell></IconButton>
+        <Button variant="outlined" 
+        style={{color:"black", borderColor:"black", fontSize:"2vh", backgroundColor:"white"}} 
+        startIcon={ <FaPlus></FaPlus> }
+        onClick = {()=>{
+          alert("Added to watchlist!!!!");
+        }}
+        >Add to WatchList</Button>
+        </div>
+      </div>
       )}
       <div className="stock-page">
         {!isDataPresent && <Loading />}
         {isDataPresent && (
           <div className="stock-graph">
-            {isDataPresent && <Chart pdata={pdata} priceChange={priceChange} />}
+          {isDataPresent && <Chart pdata={pdata} priceChange={priceChange} />}
           </div>
         )}
-        {isDataPresent && (
+        {isDataPresent && 
           <div className="side-cards">
-            <div className="stock-name">{selectedStock}</div>
-            <div className="stock-currentval">
-              <div className="stock-currentval-label">Current Value</div>
-              <div className="stock-currentval-value">
-                {pdata[pdata.length - 1]["value"]} USD
-              </div>
-            </div>
-            <div className="stock-currentval">
-              <div className="stock-currentval-label">Net Inc/Dec</div>
-              <div className={priceChange <= 0 ? "red " : "green "}>
-                {priceChange > 0 ? <AiFillCaretUp /> : <AiFillCaretDown />}
-                {(
-                  (priceChange * 100) /
-                  pdata[pdata.length - 2]["value"]
-                ).toFixed(2)}
-                %
-              </div>
-            </div>
-            <div className="stock-currentval">
-              <div className="stock-currentval-label">Stocks Owned</div>
-              <div className="stock-currentval-value">{selectedStockValue}</div>
-            </div>
-            <div className="stock-currentval">
-              <div className="stock-currentval-label">Net Profit/Loss</div>
-              <div className={priceChange <= 0 ? "red " : "green "}>
-                {priceChange > 0 ? <AiFillCaretUp /> : <AiFillCaretDown />}
-                {(selectedStockValue * priceChange).toFixed(2)} USD
-              </div>
+          <div className="stock-name">{selectedStock}</div>
+          <div className="stock-currentval">
+            <div className="stock-currentval-label">Current Value</div>
+            <div className="stock-currentval-value">
+              {pdata[pdata.length - 1]["value"]} USD
             </div>
           </div>
-        )}
+          <div className="stock-currentval">
+            <div className="stock-currentval-label">Net Inc/Dec</div>
+            <div className={priceChange <= 0 ? "red " : "green "}>
+              {priceChange > 0 ? <AiFillCaretUp /> : <AiFillCaretDown />}
+              {(
+                (priceChange * 100) /
+                pdata[pdata.length - 2]["value"]
+              ).toFixed(2)}
+              %
+            </div>
+          </div>
+          <div className="stock-currentval">
+            <div className="stock-currentval-label">Stocks Owned</div>
+            <div className="stock-currentval-value">{selectedStockValue}</div>
+          </div>
+          <div className="stock-currentval">
+            <div className="stock-currentval-label">Net Profit/Loss</div>
+            <div className={priceChange <= 0 ? "red " : "green "}>
+              {priceChange > 0 ? <AiFillCaretUp /> : <AiFillCaretDown />}
+              {(selectedStockValue * priceChange).toFixed(2)} USD
+            </div>
+          </div>
+        </div>
+        }
       </div>
       {isDataPresent && (
         <div className="bottom-table">
@@ -139,7 +153,7 @@ const Stock = () => {
             sx={{
               width: "90%",
               overflow: "hidden",
-              backgroundColor: "transparent",
+              backgroundColor: "white",
               margin: "auto",
               borderRadius: "5px",
             }}
@@ -152,14 +166,14 @@ const Stock = () => {
                     <TableCell className="table-cell">Stocks Owned</TableCell>
                     <TableCell className="table-cell">Stock CP</TableCell>
                     <TableCell className="table-cell">
-                      Stock Current Price
+                      Crypto Current Price
                     </TableCell>
                     <TableCell className="table-cell">
                       Net Profit/Loss
                     </TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody sx={{ fontSize: "80%" }}>
+                <TableBody sx={{ fontSize: "80%", textAlign: "center" }}>
                   {stocksOwned.map((stock) => {
                     return (
                       <TableRow key={stock.name}>
