@@ -4,6 +4,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import {
+  Autocomplete,
   Button,
   InputAdornment,
   MenuItem,
@@ -16,13 +17,15 @@ import Modal from "./components/Modal.js";
 import Loading from "./components/Loading.js";
 
 import cryptoList from "./assets/crypto-list.csv";
+import stocksList from "./assets/stocks-list.csv";
 import Papa from "papaparse";
 
 const Input = () => {
   const [inputType, setInputType] = useState("Expense");
   const [transactionType, setTransactionType] = useState("Stock");
-  const [cryptoRecords, setCryptoRecords] = useState(null);
-  const [recordName, setRecordName] = useState("select");
+  const [cryptoRecords, setCryptoRecords] = useState([]);
+  const [stocksRecords, setStocksRecords] = useState([]);
+  const [recordName, setRecordName] = useState(null);
   const [amount, setAmount] = useState(0.0);
   const [date, setDate] = useState(new Date());
   const [payee, setPayee] = useState("select");
@@ -33,10 +36,17 @@ const Input = () => {
   const [payeeList, setPayeeList] = useState(["ABC", "XYZ"]);
 
   useEffect(() => {
+    Papa.parse(stocksList, {
+      download: true,
+      delimiter: ",",
+      complete: (input) => {
+        setStocksRecords(input.data);
+      },
+    });
     Papa.parse(cryptoList, {
       download: true,
       delimiter: ",",
-      complete: function (input) {
+      complete: (input) => {
         setCryptoRecords(input.data);
       },
     });
@@ -69,7 +79,7 @@ const Input = () => {
 
   return (
     <div className="container">
-      {!cryptoRecords ? (
+      {!cryptoRecords && !stocksRecords ? (
         <Loading />
       ) : (
         <div className="input">
@@ -120,7 +130,10 @@ const Input = () => {
                   size="small"
                   style={inputStyle}
                   value={transactionType}
-                  onChange={(e) => setTransactionType(e.target.value)}
+                  onChange={(e) => {
+                    setTransactionType(e.target.value);
+                    setRecordName(null);
+                  }}
                 >
                   <MenuItem value="Stock">Stocks</MenuItem>
                   <MenuItem value="Cryptocurrency">Cryptocurrency</MenuItem>
@@ -136,21 +149,26 @@ const Input = () => {
               <FormControl className="form-control">
                 <label>
                   {transactionType} Name:
-                  <Select
-                    size="small"
+                  <Autocomplete
+                    options={
+                      transactionType === "Stock"
+                        ? stocksRecords.map((item) => `${item[1]} (${item[0]})`)
+                        : transactionType === "Cryptocurrency"
+                        ? cryptoRecords.map((item) => `${item[1]} (${item[0]})`)
+                        : []
+                    }
                     style={inputStyle}
                     value={recordName}
-                    onChange={(e) => setRecordName(e.target.value)}
-                  >
-                    <MenuItem value="select" disabled>
-                      <em>--Select a {transactionType}--</em>
-                    </MenuItem>
-                    {cryptoRecords.map((item) => (
-                      <MenuItem value={item[0]} key={item[0]}>
-                        {`${item[1]} (${item[0]})`}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                    onChange={(e, val) => setRecordName(val)}
+                    disableClearable
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        size="small"
+                        placeholder={`--Select ${transactionType}--`}
+                      />
+                    )}
+                  />
                 </label>
               </FormControl>
             )}
