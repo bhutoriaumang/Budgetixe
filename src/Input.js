@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -15,9 +16,9 @@ import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import Modal from "./components/Modal.js";
 import Loading from "./components/Loading.js";
-
 import cryptoList from "./assets/crypto-list.csv";
 import stocksList from "./assets/stocks-list.csv";
+import saveData from "./hooks/saveData.js";
 import Papa from "papaparse";
 
 const Input = () => {
@@ -26,14 +27,14 @@ const Input = () => {
   const [cryptoRecords, setCryptoRecords] = useState([]);
   const [stocksRecords, setStocksRecords] = useState([]);
   const [recordName, setRecordName] = useState(null);
-  const [amount, setAmount] = useState(0.0);
-  const [date, setDate] = useState(new Date());
-  const [payee, setPayee] = useState("select");
-  const [paymentMethod, setPaymentMethod] = useState("cash");
+  const [transactionAmount, setTransactionAmount] = useState(0.0);
+  const [transactionDate, setTransactionDate] = useState(new Date());
+  const [paymentMethod, setPaymentMethod] = useState("Cash");
   const [note, setNote] = useState("");
   const [addPayee, setAddPayee] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [payeeList, setPayeeList] = useState(["ABC", "XYZ"]);
+  const history = useHistory();
 
   useEffect(() => {
     Papa.parse(stocksList, {
@@ -59,22 +60,47 @@ const Input = () => {
 
   const handleInputTypeChange = (e) => setInputType(e.target.value);
 
+  const handleTransationTypeChange = (e) => {
+    setTransactionType(e.target.value);
+    if (e.target.value !== "Transactions") setRecordName(null);
+    else setRecordName("select");
+  };
+
   const handlePayeeChange = (e) => {
-    setPayee(e.target.value);
+    setRecordName(e.target.value);
     if (e.target.value === "") {
-      setPayee("select");
+      setRecordName("select");
       setShowModal(true);
     }
   };
 
   const handleClose = () => {
     if (addPayee !== "") {
-      setPayee(addPayee);
+      setRecordName(addPayee);
       payeeList.push(addPayee);
       setAddPayee("");
       setPayeeList(payeeList);
     }
     setShowModal(false);
+  };
+
+  const handleSubmit = async () => {
+    const transaction = {
+      inputType,
+      transactionType,
+      recordName,
+      transactionAmount,
+      transactionDate,
+      paymentMethod,
+      note,
+    };
+
+    const { msg, status } = await saveData("transaction", transaction);
+    if (status === 200) {
+      history.push("/");
+    } else {
+      alert(msg);
+    }
   };
 
   return (
@@ -130,10 +156,7 @@ const Input = () => {
                   size="small"
                   style={inputStyle}
                   value={transactionType}
-                  onChange={(e) => {
-                    setTransactionType(e.target.value);
-                    setRecordName(null);
-                  }}
+                  onChange={handleTransationTypeChange}
                 >
                   <MenuItem value="Stock">Stocks</MenuItem>
                   <MenuItem value="Cryptocurrency">Cryptocurrency</MenuItem>
@@ -184,8 +207,8 @@ const Input = () => {
                   type="number"
                   style={inputStyle}
                   required
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
+                  value={transactionAmount}
+                  onChange={(e) => setTransactionAmount(e.target.value)}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">$</InputAdornment>
@@ -209,8 +232,8 @@ const Input = () => {
                     inputVariant="outlined"
                     format="dd/MM/yyyy"
                     style={inputStyle}
-                    value={date}
-                    onChange={setDate}
+                    value={transactionDate}
+                    onChange={setTransactionDate}
                   />
                 </MuiPickersUtilsProvider>
               </label>
@@ -222,7 +245,7 @@ const Input = () => {
                   {inputType === "Expense" ? "Payee" : "Payer"}:
                   <Select
                     size="small"
-                    value={payee}
+                    value={recordName}
                     style={inputStyle}
                     onChange={handlePayeeChange}
                   >
@@ -248,12 +271,14 @@ const Input = () => {
                   style={inputStyle}
                   onChange={(e) => setPaymentMethod(e.target.value)}
                 >
-                  <MenuItem value="cash">Cash</MenuItem>
-                  <MenuItem value="card">Debit/Credit Card</MenuItem>
-                  <MenuItem value="net-banking">Net Banking</MenuItem>
-                  <MenuItem value="neft/rtgs">NEFT/RTGS</MenuItem>
-                  <MenuItem value="upi">UPI</MenuItem>
-                  <MenuItem value="others">Others</MenuItem>
+                  <MenuItem value="Cash">Cash</MenuItem>
+                  <MenuItem value="Debit/Credit Card">
+                    Debit/Credit Card
+                  </MenuItem>
+                  <MenuItem value="Net Banking">Net Banking</MenuItem>
+                  <MenuItem value="NEFT/RTGS">NEFT/RTGS</MenuItem>
+                  <MenuItem value="UPI">UPI</MenuItem>
+                  <MenuItem value="Others">Others</MenuItem>
                 </Select>
               </label>
             </FormControl>
@@ -273,7 +298,9 @@ const Input = () => {
               </label>
             </FormControl>
             <div className="button-container">
-              <Button variant="contained">Save</Button>
+              <Button variant="contained" onClick={handleSubmit}>
+                Save
+              </Button>
             </div>
           </form>
         </div>
